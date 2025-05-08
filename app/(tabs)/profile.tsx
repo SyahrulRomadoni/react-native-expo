@@ -78,7 +78,6 @@ export default function ProfileScreen() {
     setPhone(cleaned);
   };
   
-
   const handleDayChange = (text: string) => {
     const numericValue = text.replace(/[^0-9]/g, '');
     const number = parseInt(numericValue, 10);
@@ -124,19 +123,26 @@ export default function ProfileScreen() {
       }>
 
       <ThemedView style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-        {/* Title */}
-        <ThemedText type="title">Profile</ThemedText>
+        {/* Foto */}
+        <Image
+          source={require('@/assets/images/avatar.jpg')}
+          style={styles.profileImage}
+        />
 
-        {/* Button Enable and Disabled Edit Mode */}
-        <TouchableOpacity onPress={() => setIsEditable(!isEditable)}>
-          <Ionicons name={isEditable ? 'close' : 'pencil'} size={24} color={isDark ? '#fff' : '#000'} />
-        </TouchableOpacity>
+        {/* Title */}
+        <ThemedText type="title">
+          Profile
+          {/* Button Enable and Disabled Edit Mode */}
+          <TouchableOpacity style={{ marginLeft: 10 }} onPress={() => setIsEditable(!isEditable)}>
+            <Ionicons name={isEditable ? 'close' : 'pencil'} size={24} color={isDark ? '#fff' : '#000'} />
+          </TouchableOpacity> 
+        </ThemedText>
       </ThemedView>
 
-      <ThemedText>Name: {name}</ThemedText>
+      {/* <ThemedText>Name: {name}</ThemedText>
       <ThemedText>Email: {email}</ThemedText>
       <ThemedText>Phone: {phone}</ThemedText>
-      <ThemedText style={[styles.rows, { marginBottom: 50 }]}>Birth Date: {birthDate}</ThemedText>
+      <ThemedText style={[styles.rows, { marginBottom: 50 }]}>Birth Date: {birthDate}</ThemedText> */}
 
       {/* Input Fields */}
       {/* Fullname */}
@@ -340,5 +346,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+
+  profileImage: {
+    width: 110,
+    height: 110,
+    borderRadius: 100,
+    marginBottom: 10,
+  }
 
 });
