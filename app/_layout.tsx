@@ -13,7 +13,7 @@ export default function RootLayout() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const protectedRoutes = ['/', '/promo', '/wishlist', '/profile'];
+    const protectedRoutes = ['/', '/promotion', '/favorite', '/profile'];
 
     if (protectedRoutes.includes(pathname)) {
       const checkLogin = async () => {

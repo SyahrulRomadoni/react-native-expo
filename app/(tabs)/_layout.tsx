@@ -19,15 +19,15 @@ export default function TabLayout() {
           }}
       />
       <Tabs.Screen
-          name="promo"
+          name="promotion"
           options={{
-              title: "Promo"
+              title: "Promotion"
           }}
       />
       <Tabs.Screen
-          name="wishlist"
+          name="favorite"
           options={{
-              title: "Wishlist"
+              title: "Favorite"
           }}
       />
       <Tabs.Screen

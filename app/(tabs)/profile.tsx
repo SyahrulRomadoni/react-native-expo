@@ -102,8 +102,10 @@ export default function ProfileScreen() {
   };
   
   const handleDateChange = () => {
-    if (day && month && year) {
+    if (day && month && year.length === 4) {
       setBirthDate(`${day.padStart(2, '0')}-${month.padStart(2, '0')}-${year}`);
+    } else {
+      setBirthDate('');
     }
   };
 

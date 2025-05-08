@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, useColorScheme } from 'react-native';
 
-export default function PromoScreen() {
+export default function FavoriteScreen() {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
 
@@ -9,7 +9,7 @@ export default function PromoScreen() {
     <ScrollView style={[styles.container, { backgroundColor: isDark ? 'rgb' : '#D0D0D0' }]}>
       
       <Text style={{ fontSize: 20, color: isDark ? '#fff' : '#000' }}>
-        Promo
+        Favorite
       </Text>
       
     </ScrollView>
