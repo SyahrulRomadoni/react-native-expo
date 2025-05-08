@@ -73,10 +73,11 @@ export default function ProfileScreen() {
   };
 
   const handlePhoneChange = (text: string) => {
-    let cleaned = text.replace(/^\+62/, '0');
-    cleaned = cleaned.replace(/-/g, '');
+    let cleaned = text.replace(/^\+62/, '0');     // Ganti prefix +62 jadi 0
+    cleaned = cleaned.replace(/-/g, '');          // Hapus tanda minus
+    cleaned = cleaned.replace(/\D/g, '');         // Hapus semua karakter non-angka
     setPhone(cleaned);
-  };
+  };  
   
   const handleDayChange = (text: string) => {
     const numericValue = text.replace(/[^0-9]/g, '');
