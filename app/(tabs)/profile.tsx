@@ -73,9 +73,9 @@ export default function ProfileScreen() {
   };
 
   const handlePhoneChange = (text: string) => {
-    let cleaned = text.replace(/^\+62/, '0');     // Ganti prefix +62 jadi 0
-    cleaned = cleaned.replace(/-/g, '');          // Hapus tanda minus
-    cleaned = cleaned.replace(/\D/g, '');         // Hapus semua karakter non-angka
+    let cleaned = text.replace(/^\+62/, '0');
+    cleaned = cleaned.replace(/-/g, '');
+    cleaned = cleaned.replace(/\D/g, '');
     setPhone(cleaned);
   };  
   
