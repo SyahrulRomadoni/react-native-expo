@@ -43,17 +43,20 @@ export default function ForbiddenScreen() {
 }
 
 const styles = StyleSheet.create({
+
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
   },
+
   image: {
     width: 320,
     height: 320,
     marginBottom: 100,
   },
+
   button: {
     width: 200,
     height: 50,
@@ -61,9 +64,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 20,
   },
+
   text1: {
     fontWeight: 'bold',
     fontSize: 20,
     textAlign: 'center',
   },
+  
 });

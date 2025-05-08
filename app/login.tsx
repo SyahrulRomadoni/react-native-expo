@@ -152,27 +152,32 @@ export default function Login() {
 }
 
 const styles = StyleSheet.create({
+  
   container: {
     flex: 1,
     padding: 20,
     paddingTop: 100,
   },
+
   imageStyle: {
     width: 200,
     height: 200,
     marginBottom: 30,
     alignSelf: 'center',
   },
+
   titleText: {
     fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
   },
+
   subText: {
     fontSize: 16,
     textAlign: 'center',
     marginBottom: 20,
   },
+
   input: {
     marginBottom: 15,
     padding: 15,
@@ -184,6 +189,7 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     shadowOpacity: 0.1,
   },
+
   eyeButton: {
     position: 'absolute',
     right: 5,
@@ -191,6 +197,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
   },
+
   buttonStyle: {
     paddingVertical: 12,
     borderRadius: 20,
@@ -201,8 +208,10 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     shadowOpacity: 0.1,
   },
+
   buttonText: {
     fontSize: 16,
     fontWeight: 'bold',
   },
+
 });

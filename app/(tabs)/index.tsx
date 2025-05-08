@@ -17,13 +17,16 @@ export default function BerandaScreen() {
 }
 
 const styles = StyleSheet.create({
+
   container: {
     flex: 1,
   },
+
   placeholderContent: {
     height: 300,
     margin: 20,
     backgroundColor: '#ccc',
     borderRadius: 10,
   },
+  
 });
