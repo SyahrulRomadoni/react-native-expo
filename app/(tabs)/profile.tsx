@@ -1,6 +1,7 @@
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
@@ -24,6 +25,7 @@ export default function ProfileScreen() {
   const [birthDate, setBirthDate] = useState('');
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
+  const [isEditable, setIsEditable] = useState(false);
 
   useEffect(() => {
     const checkUsers = async () => {
@@ -70,6 +72,35 @@ export default function ProfileScreen() {
     }
   };
 
+  const handlePhoneChange = (text: string) => {
+    let cleaned = text.replace(/^\+62/, '0');
+    cleaned = cleaned.replace(/-/g, '');
+    setPhone(cleaned);
+  };
+  
+
+  const handleDayChange = (text: string) => {
+    const numericValue = text.replace(/[^0-9]/g, '');
+    const number = parseInt(numericValue, 10);
+  
+    if (!isNaN(number) && number <= 31) {
+      setDay(numericValue);
+    } else if (numericValue === '') {
+      setDay('');
+    }
+  };  
+  
+  const handleMonthChange = (text: string) => {
+    const numericValue = text.replace(/[^0-9]/g, '');
+    const number = parseInt(numericValue, 10);
+  
+    if (!isNaN(number) && number >= 1 && number <= 12) {
+      setMonth(numericValue);
+    } else if (numericValue === '') {
+      setMonth('');
+    }
+  };
+  
   const handleDateChange = () => {
     if (day && month && year) {
       setBirthDate(`${day.padStart(2, '0')}-${month.padStart(2, '0')}-${year}`);
@@ -89,9 +120,15 @@ export default function ProfileScreen() {
           style={styles.image}
         />
       }>
-        
-      <ThemedView style={[styles.titel, { marginBottom: 50 }]}>
+
+      <ThemedView style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+        {/* Title */}
         <ThemedText type="title">Profile</ThemedText>
+
+        {/* Button Enable and Disabled Edit Mode */}
+        <TouchableOpacity onPress={() => setIsEditable(!isEditable)}>
+          <Ionicons name={isEditable ? 'close' : 'pencil'} size={24} color={isDark ? '#fff' : '#000'} />
+        </TouchableOpacity>
       </ThemedView>
 
       <ThemedText>Name: {name}</ThemedText>
@@ -100,27 +137,31 @@ export default function ProfileScreen() {
       <ThemedText style={[styles.rows, { marginBottom: 50 }]}>Birth Date: {birthDate}</ThemedText>
 
       {/* Input Fields */}
+      {/* Fullname */}
       <Text style={{ fontSize: 16, marginBottom: -20, color: isDark ? '#fff' : '#000' }}>Full Name</Text>
       <TextInput
         value={name}
         onChangeText={setName}
-        autoCapitalize="none"
+        editable={isEditable}
         style={[
           styles.input,
           {
             borderColor: isDark ? '#888' : '#333',
             backgroundColor: isDark ? '#222' : '#fff',
             color: isDark ? '#fff' : '#000',
+            opacity: isEditable ? 1 : 0.5, // efek visual
           },
         ]}
         placeholder="Full Name"
         placeholderTextColor={isDark ? '#888' : '#aaa'}
       />
 
+      {/* Email */}
       <Text style={{ fontSize: 16, marginBottom: -20, color: isDark ? '#fff' : '#000' }}>Email</Text>
       <TextInput
         value={email}
         onChangeText={setEmail}
+        editable={isEditable}
         autoCapitalize="none"
         style={[
           styles.input,
@@ -128,16 +169,19 @@ export default function ProfileScreen() {
             borderColor: isDark ? '#888' : '#333',
             backgroundColor: isDark ? '#222' : '#fff',
             color: isDark ? '#fff' : '#000',
+            opacity: isEditable ? 1 : 0.5,
           },
         ]}
         placeholder="Email"
         placeholderTextColor={isDark ? '#888' : '#aaa'}
       />
 
+      {/* Phone */}
       <Text style={{ fontSize: 16, marginBottom: -20, color: isDark ? '#fff' : '#000' }}>Phone</Text>
       <TextInput
         value={phone}
-        onChangeText={setPhone}
+        onChangeText={handlePhoneChange}
+        editable={isEditable}
         autoCapitalize="none"
         maxLength={14}
         keyboardType="number-pad"
@@ -147,17 +191,22 @@ export default function ProfileScreen() {
             borderColor: isDark ? '#888' : '#333',
             backgroundColor: isDark ? '#222' : '#fff',
             color: isDark ? '#fff' : '#000',
+            opacity: isEditable ? 1 : 0.5,
           },
         ]}
         placeholder="Phone Number"
         placeholderTextColor={isDark ? '#888' : '#aaa'}
       />
 
+      {/* Birtdate */}
       <Text style={{ fontSize: 16, marginBottom: -20, color: isDark ? '#fff' : '#000' }}>BirthDate</Text>
       <ThemedView style={styles.rows}>
+
+        {/* Date */}
         <TextInput
           value={day}
-          onChangeText={setDay}
+          onChangeText={handleDayChange}
+          editable={isEditable}
           keyboardType="number-pad"
           maxLength={2}
           placeholder="DD"
@@ -167,13 +216,17 @@ export default function ProfileScreen() {
               borderColor: isDark ? '#888' : '#333',
               backgroundColor: isDark ? '#222' : '#fff',
               color: isDark ? '#fff' : '#000',
+              opacity: isEditable ? 1 : 0.5,
             },
           ]}
           onBlur={handleDateChange}
         />
+
+        {/* Month */}
         <TextInput
           value={month}
-          onChangeText={setMonth}
+          onChangeText={handleMonthChange}
+          editable={isEditable}
           keyboardType="number-pad"
           maxLength={2}
           placeholder="MM"
@@ -183,13 +236,17 @@ export default function ProfileScreen() {
               borderColor: isDark ? '#888' : '#333',
               backgroundColor: isDark ? '#222' : '#fff',
               color: isDark ? '#fff' : '#000',
+              opacity: isEditable ? 1 : 0.5,
             },
           ]}
           onBlur={handleDateChange}
         />
+
+        {/* Year */}
         <TextInput
           value={year}
           onChangeText={setYear}
+          editable={isEditable}
           keyboardType="number-pad"
           maxLength={4}
           placeholder="YYYY"
@@ -199,17 +256,19 @@ export default function ProfileScreen() {
               borderColor: isDark ? '#888' : '#333',
               backgroundColor: isDark ? '#222' : '#fff',
               color: isDark ? '#fff' : '#000',
+              opacity: isEditable ? 1 : 0.5,
             },
           ]}
           onBlur={handleDateChange}
         />
       </ThemedView>
-
+      
+      {/* Button Save dan Logout */}
       <ThemedView style={styles.rows}>
         <TouchableOpacity
           style={[
             styles.buttonHalf,
-            { backgroundColor: isDark ? '#0ea5e9' : 'blue' },
+            { backgroundColor: isDark ? '#0ea5e9' : 'rgb(17, 0, 255)' },
           ]}
           onPress={() => Alert.alert('Save', 'Profile saved successfully!')}
         >
@@ -219,7 +278,7 @@ export default function ProfileScreen() {
         <TouchableOpacity
           style={[
             styles.buttonHalf,
-            { backgroundColor: isDark ? '#f87171' : 'red' },
+            { backgroundColor: isDark ? '#f87171' : 'rgb(255, 0, 0)' },
           ]}
           onPress={handleLogout}
         >
