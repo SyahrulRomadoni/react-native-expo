@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import { Picker } from '@react-native-picker/picker';
 import React, { useEffect, useState } from 'react';
 import {
 	Pressable,
@@ -20,99 +21,149 @@ export default function UserScreen() {
 
 	interface Users {
 		id: number;
+		roles: string;
 		name: string;
 		email: string;
 		phone?: string;
 		birthDate?: string;
 	}
 
+	interface Roles {
+		id: number;
+		name: string;
+	}
+
 	const [formData, setFormData] = useState({
 		id: '',
-		id_role: 2,
+		id_role: '',
+		roles: '',
 		name: '',
 		email: '',
 		phone: '',
 		birthDate: '',
-		password: '@Password123',
+		password: '',
 	});
   
 	const [users, setUsers] = useState<Users[]>([]);
-	const [roles, setRoles] = useState([]);
+	const [roles, setRoles] = useState<Roles[]>([]);
+	const [idSelected, setIdSelected] = useState<number | null>(null);
   const [visible, setVisible] = useState(false);
   const [modalType, setModalType] = useState('');
 
+	const fetchData = async () => {
+		try {
+			const token = await getToken();
+	
+			// Users
+			const response = await fetch('http://localhost:1001/api/user', {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${token}`,
+				},
+			});
+	
+			const result = await response.json();
+			if (result.status === 'success') {
+				setUsers(result.data.data);
+			} else {
+				Toast.show({
+					type: 'error',
+					text1: 'Error',
+					text2: result.message,
+					text1Style: { fontSize: 17 },
+					text2Style: { fontSize: 15 },
+				});
+			}
+	
+			// Roles
+			const response2 = await fetch('http://localhost:1001/api/role', {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+					Authorization: `Bearer ${token}`,
+				},
+			});
+	
+			const result2 = await response2.json();
+			if (result2.status === 'success') {
+				setRoles(result2.data.data);
+			} else {
+				Toast.show({
+					type: 'error',
+					text1: 'Error',
+					text2: result2.message,
+					text1Style: { fontSize: 17 },
+					text2Style: { fontSize: 15 },
+				});
+			}
+		} catch (error) {
+			console.error('Error fetching data:', error);
+		}
+	};	
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const token = await getToken();
+		fetchData();
+	}, []);	
 
-				// Users
-        const response = await fetch('http://localhost:1001/api/user', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        });
-				
-        const result = await response.json();
-        if (result.status === 'success') {
-          setUsers(result.data.data);
-        } else {
-					Toast.show({
-						type: 'error',
-						text1: 'Error',
-						text2: result.message,
-						text1Style: { fontSize: 17 },
-						text2Style: { fontSize: 15 },
-					});
-        }
-
-				// Roles
-				const response2 = await fetch('http://localhost:1001/api/role', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        });
-				
-        const result2 = await response2.json();
-        if (result2.status === 'success') {
-          setUsers(result2.data.data);
-        } else {
-          Toast.show({
-						type: 'error',
-						text1: 'Error',
-						text2: result2.message,
-						text1Style: { fontSize: 17 },
-						text2Style: { fontSize: 15 },
-					});
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  const openModal = (type: string) => {
+  const openModalCreateDelete = (type: string, id: number) => {
     setModalType(type);
-    setVisible(true);
-		
+    setVisible(true);	
+		if (type === 'delete') {
+			setIdSelected(id);
+		}
   };
+
+	const openModalViewAndEdit = async (type: string, id: number) => {
+		if (type == 'view') {
+			setModalType('view');
+		} else {
+			setModalType('edit');
+		}
+
+		const token = await getToken();
+		const response = await fetch('http://localhost:1001/api/user/' + id, {
+			method: 'GET',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+		});
+
+		const result = await response.json();
+		if (result.status == 'success') {
+			setFormData({
+				...formData,
+				id: result.data.id,
+				id_role: result.data.id_role,
+				name: result.data.name,
+				email: result.data.email,
+				phone: result.data.phone || '',
+				birthDate: result.data.birthDate || '',
+			});
+			setVisible(true);
+		} else {
+			Toast.show({
+				type: 'error',
+				text1: 'Error',
+				text2: result.message,
+				text1Style: { fontSize: 17 },
+				text2Style: { fontSize: 15 },
+			});
+		}
+	};
 
 	const closeModal = () => {
     setVisible(false);
 		setFormData({
 			id: '',
-			id_role: 2,
+			id_role: '',
+			roles: '',
 			name: '',
 			email: '',
 			phone: '',
 			birthDate: '',
-			password: '@Password123',
+			password: '',
 		});
   };
 
@@ -125,8 +176,10 @@ export default function UserScreen() {
 
 	const handleCreate = async () => {
 		const errorMessages: { [key: string]: string } = {
+			id_role: 'Role cannot be empty.',
 			name: 'Name cannot be empty.',
 			email: 'Email cannot be empty.',
+			password: 'Password cannot be empty.',
 		};
 
 		for (const [key, message] of Object.entries(errorMessages)) {
@@ -161,7 +214,10 @@ export default function UserScreen() {
 				text1Style: { fontSize: 17 },
 				text2Style: { fontSize: 15 },
 			});
-			setUsers((prevUsers) => [...prevUsers, result.data]);
+
+			// Trigger fetchData to refresh the user list and roles list
+			await fetchData();
+
 			closeModal();
 		} else {
 			Toast.show({
@@ -174,7 +230,94 @@ export default function UserScreen() {
 		}
 	};
 
-  const deleteUser = () => {
+	const handleUpdate = async (id: number) => {
+		const errorMessages: { [key: string]: string } = {
+			id_role: 'Role cannot be empty.',
+			name: 'Name cannot be empty.',
+			email: 'Email cannot be empty.',
+		};
+
+		for (const [key, message] of Object.entries(errorMessages)) {
+			if (!formData[key as keyof typeof formData]) {
+				Toast.show({
+					type: 'error',
+					text1: 'Validation Error',
+					text2: message,
+					text1Style: { fontSize: 17 },
+					text2Style: { fontSize: 15 },
+				});
+				return;
+			}
+		}
+
+		const token = await getToken();
+		const response = await fetch(`http://localhost:1001/api/user/${id}`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+			body: JSON.stringify(formData),
+		});
+
+		const result = await response.json();
+		if (result.status === 'success') {
+			Toast.show({
+				type: 'success',
+				text1: 'User Updated',
+				text2: result.message,
+				text1Style: { fontSize: 17 },
+				text2Style: { fontSize: 15 },
+			});
+
+			// Trigger fetchData to refresh the user list and roles list
+			await fetchData();
+
+			closeModal();
+		} else {
+			Toast.show({
+				type: 'error',
+				text1: 'Error',
+				text2: result.message || 'An error occurred.',
+				text1Style: { fontSize: 17 },
+				text2Style: { fontSize: 15 },
+			});
+		}
+	};
+
+  const handleDelete = async () => {
+		const token = await getToken();
+		const response = await fetch(`http://localhost:1001/api/user/` + idSelected, {
+			method: 'DELETE',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+		});
+
+		const result = await response.json();
+		if (result.status === 'success') {
+			Toast.show({
+				type: 'success',
+				text1: 'User Deleted',
+				text2: result.message,
+				text1Style: { fontSize: 17 },
+				text2Style: { fontSize: 15 },
+			});
+
+			// Trigger fetchData to refresh the user list and roles list
+			await fetchData();
+
+			closeModal();
+		} else {
+			Toast.show({
+				type: 'error',
+				text1: 'Error',
+				text2: result.message || 'An error occurred.',
+				text1Style: { fontSize: 17 },
+				text2Style: { fontSize: 15 },
+			});
+		}
     closeModal();
   };
 
@@ -190,7 +333,7 @@ export default function UserScreen() {
 							right={() => (
 								<Pressable
 									style={[styles.iconButton, { backgroundColor: 'green', marginRight: 16 }]}
-									onPress={() => openModal('add')}
+									onPress={() => openModalCreateDelete('add', 0)}
 								>
 									<Ionicons name="add" size={18} color="white" />
 								</Pressable>
@@ -201,6 +344,7 @@ export default function UserScreen() {
 							<ScrollView horizontal>
 								<DataTable>
 									<DataTable.Header>
+										<DataTable.Title>Role</DataTable.Title>
 										<DataTable.Title>Name</DataTable.Title>
 										<DataTable.Title>Email</DataTable.Title>
 										<DataTable.Title>Phone</DataTable.Title>
@@ -210,6 +354,7 @@ export default function UserScreen() {
 
 									{users.map((user) => (
 										<DataTable.Row key={user.id}>
+											<DataTable.Cell>{user.roles}</DataTable.Cell>
 											<DataTable.Cell>{user.name}</DataTable.Cell>
 											<DataTable.Cell>{user.email}</DataTable.Cell>
 											<DataTable.Cell>{user.phone || '-'}</DataTable.Cell>
@@ -218,19 +363,19 @@ export default function UserScreen() {
 												<View style={styles.actionRow}>
 													<Pressable
 														style={[styles.iconButton, { backgroundColor: 'yellow' }]}
-														onPress={() => openModal('view')}
+														onPress={() => openModalViewAndEdit('view', user.id)}
 													>
 														<Ionicons name="eye" size={18} color="black" />
 													</Pressable>
 													<Pressable
 														style={[styles.iconButton, { backgroundColor: 'blue' }]}
-														onPress={() => openModal('edit')}
+														onPress={() => openModalViewAndEdit('edit', user.id)}
 													>
 														<Ionicons name="pencil" size={18} color="white" />
 													</Pressable>
 													<Pressable
 														style={[styles.iconButton, { backgroundColor: 'red' }]}
-														onPress={() => openModal('delete')}
+														onPress={() => openModalCreateDelete('delete', user.id)}
 													>
 														<Ionicons name="trash" size={18} color="white" />
 													</Pressable>
@@ -252,6 +397,21 @@ export default function UserScreen() {
 						{modalType === 'add' && (
               <View>
                 <Text style={styles.modalText}>Add User</Text>
+
+								<Text>Role:</Text>
+								<Picker
+									selectedValue={formData.id_role}
+									style={styles.picker}
+									onValueChange={(itemValue, itemIndex) =>
+										setFormData({ ...formData, id_role: itemValue })
+									}>
+									<Picker.Item label="-- Pilih Role --" value="" />
+									{roles.map((role) => (
+										<Picker.Item key={role.id} label={role.name} value={role.id} />
+									))}
+								</Picker>
+
+								<Text>Name:</Text>
                 <TextInput
 									style={styles.input}
 									placeholder="Name"
@@ -259,6 +419,7 @@ export default function UserScreen() {
 									onChangeText={(text) => handleChange('name', text)}
 								/>
 
+								<Text>Email:</Text>
 								<TextInput
 									style={styles.input}
 									placeholder="Email"
@@ -266,23 +427,46 @@ export default function UserScreen() {
 									value={formData.email}
 									onChangeText={(text) => handleChange('email', text)}
 								/>
+
+								<Text>Password:</Text>
+								<TextInput
+									style={styles.input}
+									placeholder="Password"
+									value={formData.password}
+									onChangeText={(text) => handleChange('password', text)}
+								/>
+
                 <View style={styles.modalActions}>
                   <Pressable style={[styles.button, styles.button]} onPress={handleCreate}>
-                    <Text style={styles.textStyle}>Submit</Text>
+                    <Text style={styles.textStyle}>Save</Text>
                   </Pressable>
                   <Pressable style={[styles.button, styles.buttonClose]} onPress={closeModal}>
                     <Text style={styles.textStyle}>Cancel</Text>
                   </Pressable>
                 </View>
+
               </View>
             )}
 
             {modalType === 'view' && (
               <View>
-                <Text>Name:</Text>
-                <TextInput value={formData.name} editable={false} style={styles.input} />
-                <Text>Email:</Text>
-                <TextInput value={formData.email} editable={false} style={styles.input} />
+								<Text>Role:</Text>
+                <Picker
+									enabled={false}
+									selectedValue={formData.id_role}
+									style={styles.picker}
+									onValueChange={(itemValue, itemIndex) =>
+										setFormData({ ...formData, id_role: itemValue })
+									}>
+									<Picker.Item label="-- Pilih Role --" value="" />
+									{roles.map((role) => (
+										<Picker.Item key={role.id} label={role.name} value={role.id} />
+									))}
+								</Picker>
+								<Text>Name:</Text>
+								<TextInput value={formData.name} editable={false} style={[styles.input, { opacity: 0.5 }]} />
+								<Text>Email:</Text>
+								<TextInput value={formData.email} editable={false} style={[styles.input, { opacity: 0.5 }]} />
                 <View style={styles.modalActions}>
                   <Pressable style={[styles.button, styles.buttonClose]} onPress={closeModal}>
                     <Text style={styles.textStyle}>Cancel</Text>
@@ -294,6 +478,21 @@ export default function UserScreen() {
             {modalType === 'edit' && (
               <View>
                 <Text style={styles.modalText}>Edit User Details</Text>
+
+								<Text>Role:</Text>
+								<Picker
+									selectedValue={formData.id_role}
+									style={styles.picker}
+									onValueChange={(itemValue, itemIndex) =>
+										setFormData({ ...formData, id_role: itemValue })
+									}>
+									<Picker.Item label="-- Pilih Role --" value="" />
+									{roles.map((role) => (
+										<Picker.Item key={role.id} label={role.name} value={role.id} />
+									))}
+								</Picker>
+
+								<Text>Name:</Text>
                 <TextInput
 									style={styles.input}
 									placeholder="Name"
@@ -301,6 +500,7 @@ export default function UserScreen() {
 									onChangeText={(text) => handleChange('name', text)}
 								/>
 
+								<Text>Email:</Text>
 								<TextInput
 									style={styles.input}
 									placeholder="Email"
@@ -308,14 +508,24 @@ export default function UserScreen() {
 									value={formData.email}
 									onChangeText={(text) => handleChange('email', text)}
 								/>
+
+								<Text>Password:</Text>
+								<TextInput
+									style={styles.input}
+									placeholder="Password"
+									value={formData.password}
+									onChangeText={(text) => handleChange('password', text)}
+								/>
+
                 <View style={styles.modalActions}>
-                  <Pressable style={[styles.button, styles.button]} onPress={closeModal}>
-                    <Text style={styles.textStyle}>Submit</Text>
-                  </Pressable>
+									<Pressable style={[styles.button, styles.button]} onPress={() => handleUpdate(Number(formData.id))}>
+										<Text style={styles.textStyle}>Update</Text>
+									</Pressable>
                   <Pressable style={[styles.button, styles.buttonClose]} onPress={closeModal}>
                     <Text style={styles.textStyle}>Cancel</Text>
                   </Pressable>
                 </View>
+
               </View>
             )}
 
@@ -323,8 +533,8 @@ export default function UserScreen() {
               <View>
                 <Text>Are you sure you want to delete this user?</Text>
                 <View style={styles.modalActions}>
-                  <Pressable style={[styles.button, styles.button]} onPress={deleteUser}>
-                    <Text style={styles.textStyle}>Submit</Text>
+                  <Pressable style={[styles.button, styles.button]} onPress={handleDelete}>
+                    <Text style={styles.textStyle}>Delete</Text>
                   </Pressable>
                   <Pressable style={[styles.button, styles.buttonClose]} onPress={closeModal}>
                     <Text style={styles.textStyle}>Cancel</Text>
@@ -335,13 +545,15 @@ export default function UserScreen() {
 
           </Modal>
         </Portal>
+
       </SafeAreaProvider>
     </Provider>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  
+	container: {
     flex: 1,
     padding: 16,
     borderRadius: 12,
@@ -361,6 +573,14 @@ const styles = StyleSheet.create({
   },
 
   input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 12,
+    padding: 8,
+    marginBottom: 16,
+  },
+
+	picker: {
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 12,
