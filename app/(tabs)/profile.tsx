@@ -16,7 +16,7 @@ import {
 import { getToken, removeToken } from '../../utils/tokenStorage';
 
 export default function ProfileScreen() {
-  const [name, setName] = useState('');
+  const [fullname, setFullname] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [day, setDay] = useState('');
@@ -41,7 +41,7 @@ export default function ProfileScreen() {
 
         const result = await response.json();
         if (result.status === 'success') {
-          setName(result.data.name);
+          setFullname(result.data.name);
           setEmail(result.data.email);
           setBirthDate(result.data.birthDate || '');
         }
@@ -123,7 +123,7 @@ export default function ProfileScreen() {
         />
       }>
 
-      <ThemedView style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+      <ThemedView style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
         {/* Foto */}
         <Image
           source={require('@/assets/images/avatar.jpg')}
@@ -132,12 +132,13 @@ export default function ProfileScreen() {
 
         {/* Title */}
         <ThemedText type="title">
-          Profile
-          {/* Button Enable and Disabled Edit Mode */}
-          <TouchableOpacity style={{ marginLeft: 10 }} onPress={() => setIsEditable(!isEditable)}>
-            <Ionicons name={isEditable ? 'close' : 'pencil'} size={24} color={isDark ? '#fff' : '#000'} />
-          </TouchableOpacity> 
+          {fullname}
         </ThemedText>
+
+        {/* Button Enable and Disabled Edit Mode */}
+        <TouchableOpacity style={{ marginLeft: 10 }} onPress={() => setIsEditable(!isEditable)}>
+          <Ionicons name={isEditable ? 'close' : 'pencil'} size={24} color={isDark ? '#fff' : '#000'} />
+        </TouchableOpacity> 
       </ThemedView>
 
       {/* <ThemedText>Name: {name}</ThemedText>
@@ -149,8 +150,8 @@ export default function ProfileScreen() {
       {/* Fullname */}
       <Text style={{ fontSize: 16, marginBottom: -20, color: isDark ? '#fff' : '#000' }}>Full Name</Text>
       <TextInput
-        value={name}
-        onChangeText={setName}
+        value={fullname}
+        onChangeText={setFullname}
         editable={isEditable}
         style={[
           styles.input,
@@ -352,7 +353,7 @@ const styles = StyleSheet.create({
     width: 110,
     height: 110,
     borderRadius: 100,
-    marginBottom: 10,
+    marginRight: 20,
   }
 
 });
