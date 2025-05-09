@@ -22,18 +22,18 @@ export default function Login() {
   const isDark = colorScheme === 'dark';
 
   const handleLogin = async () => {
-    try {
-      if (!email || !password) {
-        Toast.show({
-          type: 'error',
-          text1: 'Login Gagal',
-          text2: 'Email dan password tidak boleh kosong.',
-          text1Style: { fontSize: 17 },
-          text2Style: { fontSize: 15 },
-        });
-        return;
-      }
+    if (!email || !password) {
+      Toast.show({
+        type: 'error',
+        text1: 'Login Gagal',
+        text2: 'Email dan password tidak boleh kosong.',
+        text1Style: { fontSize: 17 },
+        text2Style: { fontSize: 15 },
+      });
+      return;
+    }
 
+    try {
       const response = await fetch('http://localhost:1001/api/auth/login', {
         method: 'POST',
         headers: {
@@ -67,12 +67,9 @@ export default function Login() {
   };
 
   return (
-    <View style={[styles.container, { backgroundColor: isDark ? '#000' : '#fff' }]}>
-      
-      {/* Toast Notif */}
-      <Toast/>
+    <View style={[styles.container, { backgroundColor: isDark ? '#151718' : '#D0D0D0' }]}>
+      <Toast />
 
-      {/* Ganti SVG ke PNG jika perlu atau gunakan react-native-svg */}
       <Image
         source={require('@/assets/images/login.png')}
         style={styles.imageStyle}
@@ -86,7 +83,6 @@ export default function Login() {
         Selamat Datang di App XXX
       </Text>
 
-      {/* Email Input */}
       <TextInput
         value={email}
         onChangeText={setEmail}
@@ -103,7 +99,6 @@ export default function Login() {
         placeholderTextColor={isDark ? '#888' : '#aaa'}
       />
 
-      {/* Password Input */}
       <View style={{ position: 'relative' }}>
         <TextInput
           value={password}
@@ -133,7 +128,6 @@ export default function Login() {
         </Pressable>
       </View>
 
-      {/* Tombol Login */}
       <Pressable
         onPress={handleLogin}
         style={[
@@ -158,26 +152,26 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 100,
   },
-
+  
   imageStyle: {
     width: 200,
     height: 200,
     marginBottom: 30,
     alignSelf: 'center',
   },
-
+  
   titleText: {
     fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
   },
-
+  
   subText: {
     fontSize: 16,
     textAlign: 'center',
     marginBottom: 20,
   },
-
+  
   input: {
     marginBottom: 15,
     padding: 15,
@@ -189,7 +183,7 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     shadowOpacity: 0.1,
   },
-
+  
   eyeButton: {
     position: 'absolute',
     right: 5,
@@ -197,7 +191,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 5,
   },
-
+  
   buttonStyle: {
     paddingVertical: 12,
     borderRadius: 20,
@@ -208,7 +202,7 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     shadowOpacity: 0.1,
   },
-
+  
   buttonText: {
     fontSize: 16,
     fontWeight: 'bold',

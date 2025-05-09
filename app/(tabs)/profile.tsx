@@ -23,31 +23,37 @@ export default function ProfileScreen() {
   const [month, setMonth] = useState('');
   const [year, setYear] = useState('');
   const [birthDate, setBirthDate] = useState('');
-  const colorScheme = useColorScheme();
-  const isDark = colorScheme === 'dark';
   const [isEditable, setIsEditable] = useState(false);
 
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === 'dark';
+
   useEffect(() => {
-    const checkUsers = async () => {
+    const fetchUserData = async () => {
       const token = await getToken();
       if (token) {
-        const response = await fetch('http://localhost:1001/api/user/current', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-          },
-        });
+        try {
+          const response = await fetch('http://localhost:1001/api/user/current', {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+          });
 
-        const result = await response.json();
-        if (result.status === 'success') {
-          setFullname(result.data.name);
-          setEmail(result.data.email);
-          setBirthDate(result.data.birthDate || '');
+          const result = await response.json();
+          if (result.status === 'success') {
+            setFullname(result.data.name);
+            setEmail(result.data.email);
+            setBirthDate(result.data.birthDate || '');
+          }
+        } catch {
+          Alert.alert('Error', 'Failed to fetch user data.');
         }
       }
     };
-    checkUsers();
+
+    fetchUserData();
   }, []);
 
   const handleLogout = async () => {
@@ -56,7 +62,7 @@ export default function ProfileScreen() {
       const response = await fetch('http://localhost:1001/api/auth/logout', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -65,42 +71,40 @@ export default function ProfileScreen() {
         await removeToken();
         router.replace('/login');
       } else {
-        Alert.alert('Logout Gagal', result.message || 'Cek kembali email dan password');
+        Alert.alert('Logout Failed', result.message || 'Please check your credentials.');
       }
-    } catch (error) {
-      Alert.alert('Error', 'Gagal terhubung ke server.');
+    } catch {
+      Alert.alert('Error', 'Failed to connect to the server.');
     }
   };
 
   const handlePhoneChange = (text: string) => {
-    let cleaned = text.replace(/^\+62/, '0');
-    cleaned = cleaned.replace(/-/g, '');
-    cleaned = cleaned.replace(/\D/g, '');
+    const cleaned = text.replace(/^\+62/, '0').replace(/-/g, '').replace(/\D/g, '');
     setPhone(cleaned);
-  };  
-  
+  };
+
   const handleDayChange = (text: string) => {
     const numericValue = text.replace(/[^0-9]/g, '');
     const number = parseInt(numericValue, 10);
-  
+
     if (!isNaN(number) && number <= 31) {
       setDay(numericValue);
     } else if (numericValue === '') {
       setDay('');
     }
-  };  
-  
+  };
+
   const handleMonthChange = (text: string) => {
     const numericValue = text.replace(/[^0-9]/g, '');
     const number = parseInt(numericValue, 10);
-  
+
     if (!isNaN(number) && number >= 1 && number <= 12) {
       setMonth(numericValue);
     } else if (numericValue === '') {
       setMonth('');
     }
   };
-  
+
   const handleDateChange = () => {
     if (day && month && year.length === 4) {
       setBirthDate(`${day.padStart(2, '0')}-${month.padStart(2, '0')}-${year}`);
@@ -117,102 +121,52 @@ export default function ProfileScreen() {
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
       headerImage={
-        <Image
-          source={require('@/assets/images/profile.png')}
-          style={styles.image}
-        />
-      }>
-
-      <ThemedView style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-        {/* Foto */}
-        <Image
-          source={require('@/assets/images/avatar.jpg')}
-          style={styles.profileImage}
-        />
-
-        {/* Title */}
-        <ThemedText type="title">
-          {fullname}
-        </ThemedText>
-
-        {/* Button Enable and Disabled Edit Mode */}
-        <TouchableOpacity style={{ marginLeft: 10 }} onPress={() => setIsEditable(!isEditable)}>
+        <Image source={require('@/assets/images/profile.png')} style={styles.image} />
+      }
+    >
+      <ThemedView style={styles.header}>
+        <Image source={require('@/assets/images/avatar.jpg')} style={styles.profileImage} />
+        <ThemedText type="title">{fullname}</ThemedText>
+        <TouchableOpacity onPress={() => setIsEditable(!isEditable)} style={styles.editButton}>
           <Ionicons name={isEditable ? 'close' : 'pencil'} size={24} color={isDark ? '#fff' : '#000'} />
-        </TouchableOpacity> 
+        </TouchableOpacity>
       </ThemedView>
 
-      {/* <ThemedText>Name: {name}</ThemedText>
-      <ThemedText>Email: {email}</ThemedText>
-      <ThemedText>Phone: {phone}</ThemedText>
-      <ThemedText style={[styles.rows, { marginBottom: 50 }]}>Birth Date: {birthDate}</ThemedText> */}
-
-      {/* Input Fields */}
-      {/* Fullname */}
-      <Text style={{ fontSize: 16, marginBottom: -20, color: isDark ? '#fff' : '#000' }}>Full Name</Text>
+      <Text style={[styles.label, { color: isDark ? '#fff' : '#000' }]}>Full Name</Text>
       <TextInput
         value={fullname}
         onChangeText={setFullname}
         editable={isEditable}
-        style={[
-          styles.input,
-          {
-            borderColor: isDark ? '#888' : '#333',
-            backgroundColor: isDark ? '#222' : '#fff',
-            color: isDark ? '#fff' : '#000',
-            opacity: isEditable ? 1 : 0.5, // efek visual
-          },
-        ]}
+        style={[styles.input, getInputStyle(isDark, isEditable)]}
         placeholder="Full Name"
         placeholderTextColor={isDark ? '#888' : '#aaa'}
       />
 
-      {/* Email */}
-      <Text style={{ fontSize: 16, marginBottom: -20, color: isDark ? '#fff' : '#000' }}>Email</Text>
+      <Text style={[styles.label, { color: isDark ? '#fff' : '#000' }]}>Email</Text>
       <TextInput
         value={email}
         onChangeText={setEmail}
         editable={isEditable}
         autoCapitalize="none"
-        style={[
-          styles.input,
-          {
-            borderColor: isDark ? '#888' : '#333',
-            backgroundColor: isDark ? '#222' : '#fff',
-            color: isDark ? '#fff' : '#000',
-            opacity: isEditable ? 1 : 0.5,
-          },
-        ]}
+        style={[styles.input, getInputStyle(isDark, isEditable)]}
         placeholder="Email"
         placeholderTextColor={isDark ? '#888' : '#aaa'}
       />
 
-      {/* Phone */}
-      <Text style={{ fontSize: 16, marginBottom: -20, color: isDark ? '#fff' : '#000' }}>Phone</Text>
+      <Text style={[styles.label, { color: isDark ? '#fff' : '#000' }]}>Phone</Text>
       <TextInput
         value={phone}
         onChangeText={handlePhoneChange}
         editable={isEditable}
-        autoCapitalize="none"
-        maxLength={14}
         keyboardType="number-pad"
-        style={[
-          styles.input,
-          {
-            borderColor: isDark ? '#888' : '#333',
-            backgroundColor: isDark ? '#222' : '#fff',
-            color: isDark ? '#fff' : '#000',
-            opacity: isEditable ? 1 : 0.5,
-          },
-        ]}
+        maxLength={14}
+        style={[styles.input, getInputStyle(isDark, isEditable)]}
         placeholder="Phone Number"
         placeholderTextColor={isDark ? '#888' : '#aaa'}
       />
 
-      {/* Birtdate */}
-      <Text style={{ fontSize: 16, marginBottom: -20, color: isDark ? '#fff' : '#000' }}>BirthDate</Text>
+      <Text style={[styles.label, { color: isDark ? '#fff' : '#000' }]}>BirthDate</Text>
       <ThemedView style={styles.rows}>
-
-        {/* Date */}
         <TextInput
           value={day}
           onChangeText={handleDayChange}
@@ -220,19 +174,9 @@ export default function ProfileScreen() {
           keyboardType="number-pad"
           maxLength={2}
           placeholder="DD"
-          style={[
-            styles.input,
-            {
-              borderColor: isDark ? '#888' : '#333',
-              backgroundColor: isDark ? '#222' : '#fff',
-              color: isDark ? '#fff' : '#000',
-              opacity: isEditable ? 1 : 0.5,
-            },
-          ]}
+          style={[styles.input, getInputStyle(isDark, isEditable)]}
           onBlur={handleDateChange}
         />
-
-        {/* Month */}
         <TextInput
           value={month}
           onChangeText={handleMonthChange}
@@ -240,19 +184,9 @@ export default function ProfileScreen() {
           keyboardType="number-pad"
           maxLength={2}
           placeholder="MM"
-          style={[
-            styles.input,
-            {
-              borderColor: isDark ? '#888' : '#333',
-              backgroundColor: isDark ? '#222' : '#fff',
-              color: isDark ? '#fff' : '#000',
-              opacity: isEditable ? 1 : 0.5,
-            },
-          ]}
+          style={[styles.input, getInputStyle(isDark, isEditable)]}
           onBlur={handleDateChange}
         />
-
-        {/* Year */}
         <TextInput
           value={year}
           onChangeText={setYear}
@@ -260,36 +194,20 @@ export default function ProfileScreen() {
           keyboardType="number-pad"
           maxLength={4}
           placeholder="YYYY"
-          style={[
-            styles.input,
-            {
-              borderColor: isDark ? '#888' : '#333',
-              backgroundColor: isDark ? '#222' : '#fff',
-              color: isDark ? '#fff' : '#000',
-              opacity: isEditable ? 1 : 0.5,
-            },
-          ]}
+          style={[styles.input, getInputStyle(isDark, isEditable)]}
           onBlur={handleDateChange}
         />
       </ThemedView>
-      
-      {/* Button Save dan Logout */}
+
       <ThemedView style={styles.rows}>
         <TouchableOpacity
-          style={[
-            styles.buttonHalf,
-            { backgroundColor: isDark ? '#0ea5e9' : 'rgb(17, 0, 255)' },
-          ]}
+          style={[styles.buttonHalf, { backgroundColor: isDark ? '#0ea5e9' : 'rgb(17, 0, 255)' }]}
           onPress={() => Alert.alert('Save', 'Profile saved successfully!')}
         >
           <ThemedText style={styles.buttonText}>Save</ThemedText>
         </TouchableOpacity>
-
         <TouchableOpacity
-          style={[
-            styles.buttonHalf,
-            { backgroundColor: isDark ? '#f87171' : 'rgb(255, 0, 0)' },
-          ]}
+          style={[styles.buttonHalf, { backgroundColor: isDark ? '#f87171' : 'rgb(255, 0, 0)' }]}
           onPress={handleLogout}
         >
           <ThemedText style={styles.buttonText}>Logout</ThemedText>
@@ -299,20 +217,32 @@ export default function ProfileScreen() {
   );
 }
 
+const getInputStyle = (isDark: boolean, isEditable: boolean) => ({
+  borderColor: isDark ? '#888' : '#333',
+  backgroundColor: isDark ? '#222' : '#fff',
+  color: isDark ? '#fff' : '#000',
+  opacity: isEditable ? 1 : 0.5,
+});
+
 const styles = StyleSheet.create({
-
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
-  },
-
-  titel: {
+  header: {
     flexDirection: 'row',
-    gap: 8,
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
-
+  profileImage: {
+    width: 110,
+    height: 110,
+    borderRadius: 100,
+    marginRight: 20,
+  },
+  editButton: {
+    marginLeft: 10,
+  },
+  label: {
+    fontSize: 16,
+    marginBottom: -20,
+  },
   input: {
     padding: 15,
     borderRadius: 20,
@@ -321,39 +251,27 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 10,
   },
-
   image: {
     height: 300,
     width: 300,
     bottom: 0,
     left: 0,
   },
-
   rows: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     gap: 10,
     marginBottom: 100,
   },
-
   buttonHalf: {
     flex: 1,
     borderRadius: 20,
     paddingVertical: 12,
     alignItems: 'center',
   },
-
   buttonText: {
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
   },
-
-  profileImage: {
-    width: 110,
-    height: 110,
-    borderRadius: 100,
-    marginRight: 20,
-  }
-
 });

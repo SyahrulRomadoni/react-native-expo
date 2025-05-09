@@ -6,7 +6,7 @@ export default function FavoriteScreen() {
   const isDark = colorScheme === 'dark';
 
   return (
-    <ScrollView style={[styles.container, { backgroundColor: isDark ? 'rgb' : '#D0D0D0' }]}>
+    <ScrollView style={[styles.container, { backgroundColor: isDark ? '#151718' : '#D0D0D0' }]}>
       
       <Text style={{ fontSize: 20, color: isDark ? '#fff' : '#000' }}>
         Favorite

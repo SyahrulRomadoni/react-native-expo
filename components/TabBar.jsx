@@ -1,34 +1,30 @@
-import React from 'react';
-import { StyleSheet, View, useColorScheme } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Appearance, StyleSheet, View } from 'react-native';
 import TabBarButton from './TabBarButton';
 
 const TabBar = ({ state, descriptors, navigation }) => {
-  const colorScheme = useColorScheme();
-  const isDark = colorScheme === 'dark';
+  const [colorScheme, setColorScheme] = useState(Appearance.getColorScheme());
 
+  useEffect(() => {
+    const subscription = Appearance.addChangeListener(({ colorScheme }) => {
+      setColorScheme(colorScheme);
+    });
+
+    return () => subscription.remove();
+  }, []);
+
+  const isDark = colorScheme === 'dark';
   const primaryColor = '#0891b2';
-  const greyColor = isDark ? '#aaa' : '#737373'; // lebih soft untuk dark mode
-  const backgroundColor = isDark ? '#1c1c1c' : 'rgb(255, 255, 255)';
-  const shadowColor = isDark ? '#000' : 'black';
+  const greyColor = isDark ? '#aaa' : '#737373';
+  const backgroundColor = isDark ? '#1c1c1c' : '#ffffff';
+  const shadowColor = isDark ? '#000' : '#000';
 
   return (
-    <View
-      style={[
-        styles.tabbar,
-        {
-          backgroundColor,
-          shadowColor,
-        },
-      ]}
-    >
+    <View style={[styles.tabbar, { backgroundColor, shadowColor }]}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
         const label =
-          options.tabBarLabel !== undefined
-            ? options.tabBarLabel
-            : options.title !== undefined
-            ? options.title
-            : route.name;
+          options.tabBarLabel ?? options.title ?? route.name;
 
         if (['_sitemap', '+not-found'].includes(route.name)) return null;
 
@@ -55,8 +51,11 @@ const TabBar = ({ state, descriptors, navigation }) => {
 
         return (
           <TabBarButton
-            key={route.name}
-            style={styles.tabbarItem}
+            key={route.key}
+            style={[
+              styles.tabbarItem,
+              { backgroundColor: isDark ? '#1c1c1c' : '#FFFFFF' },
+            ]}
             onPress={onPress}
             onLongPress={onLongPress}
             isFocused={isFocused}
@@ -85,6 +84,11 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 10 },
     shadowRadius: 10,
     shadowOpacity: 0.1,
+  },
+  tabbarItem: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

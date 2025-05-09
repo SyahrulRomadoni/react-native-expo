@@ -1,32 +1,413 @@
-import React from 'react';
-import { ScrollView, StyleSheet, Text, useColorScheme } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import React, { useEffect, useState } from 'react';
+import {
+	Pressable,
+	ScrollView,
+	StyleSheet,
+	Text,
+	TextInput,
+	View,
+	useColorScheme,
+} from 'react-native';
+import { Card, DataTable, Modal, Portal, Provider } from 'react-native-paper';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import Toast from 'react-native-toast-message';
+import { getToken } from '../../utils/tokenStorage';
 
-export default function BerandaScreen() {
-  const colorScheme = useColorScheme();
+export default function UserScreen() {
+	const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
 
+	interface Users {
+		id: number;
+		name: string;
+		email: string;
+		phone?: string;
+		birthDate?: string;
+	}
+
+	const [formData, setFormData] = useState({
+		id: '',
+		id_role: 2,
+		name: '',
+		email: '',
+		phone: '',
+		birthDate: '',
+		password: '@Password123',
+	});
+  
+	const [users, setUsers] = useState<Users[]>([]);
+	const [roles, setRoles] = useState([]);
+  const [visible, setVisible] = useState(false);
+  const [modalType, setModalType] = useState('');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = await getToken();
+
+				// Users
+        const response = await fetch('http://localhost:1001/api/user', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        });
+				
+        const result = await response.json();
+        if (result.status === 'success') {
+          setUsers(result.data.data);
+        } else {
+					Toast.show({
+						type: 'error',
+						text1: 'Error',
+						text2: result.message,
+						text1Style: { fontSize: 17 },
+						text2Style: { fontSize: 15 },
+					});
+        }
+
+				// Roles
+				const response2 = await fetch('http://localhost:1001/api/role', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        });
+				
+        const result2 = await response2.json();
+        if (result2.status === 'success') {
+          setUsers(result2.data.data);
+        } else {
+          Toast.show({
+						type: 'error',
+						text1: 'Error',
+						text2: result2.message,
+						text1Style: { fontSize: 17 },
+						text2Style: { fontSize: 15 },
+					});
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const openModal = (type: string) => {
+    setModalType(type);
+    setVisible(true);
+		
+  };
+
+	const closeModal = () => {
+    setVisible(false);
+		setFormData({
+			id: '',
+			id_role: 2,
+			name: '',
+			email: '',
+			phone: '',
+			birthDate: '',
+			password: '@Password123',
+		});
+  };
+
+	const handleChange = (name: string, value: string) => {
+		setFormData({
+			...formData,
+			[name]: value,
+		});
+	};
+
+	const handleCreate = async () => {
+		const errorMessages: { [key: string]: string } = {
+			name: 'Name cannot be empty.',
+			email: 'Email cannot be empty.',
+		};
+
+		for (const [key, message] of Object.entries(errorMessages)) {
+			if (!formData[key as keyof typeof formData]) {
+				Toast.show({
+					type: 'error',
+					text1: 'Validation Error',
+					text2: message,
+					text1Style: { fontSize: 17 },
+					text2Style: { fontSize: 15 },
+				});
+				return;
+			}
+		}
+
+		const token = await getToken();
+		const response = await fetch('http://localhost:1001/api/user', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${token}`,
+			},
+			body: JSON.stringify(formData),
+		});
+
+		const result = await response.json();
+		if (result.status == 'success') {
+			Toast.show({
+				type: 'success',
+				text1: 'User Created',
+				text2: result.message,
+				text1Style: { fontSize: 17 },
+				text2Style: { fontSize: 15 },
+			});
+			setUsers((prevUsers) => [...prevUsers, result.data]);
+			closeModal();
+		} else {
+			Toast.show({
+				type: 'error',
+				text1: 'Error',
+				text2: result.message || 'An error occurred.',
+				text1Style: { fontSize: 17 },
+				text2Style: { fontSize: 15 },
+			});
+		}
+	};
+
+  const deleteUser = () => {
+    closeModal();
+  };
+
   return (
-    <ScrollView style={[styles.container, { backgroundColor: isDark ? 'rgb' : '#D0D0D0' }]}>
-      
-      <Text style={{ fontSize: 20, color: isDark ? '#fff' : '#000' }}>
-        Beranda
-      </Text>
-      
-    </ScrollView>
+    <Provider>
+      <SafeAreaProvider>				
+				
+        <ScrollView style={[styles.container, { backgroundColor: isDark ? '#151718' : '#D0D0D0' }]}>
+          <Card style={[styles.card, { backgroundColor: isDark ? '#1c1c1c' : '#FFFFFF' }]}>
+						
+						<Card.Title
+							title="User Data"
+							right={() => (
+								<Pressable
+									style={[styles.iconButton, { backgroundColor: 'green', marginRight: 16 }]}
+									onPress={() => openModal('add')}
+								>
+									<Ionicons name="add" size={18} color="white" />
+								</Pressable>
+							)}
+						/>
+
+						<Card.Content>
+							<ScrollView horizontal>
+								<DataTable>
+									<DataTable.Header>
+										<DataTable.Title>Name</DataTable.Title>
+										<DataTable.Title>Email</DataTable.Title>
+										<DataTable.Title>Phone</DataTable.Title>
+										<DataTable.Title>BirthDate</DataTable.Title>
+										<DataTable.Title style={{ flex: 1 }}>Actions</DataTable.Title>
+									</DataTable.Header>
+
+									{users.map((user) => (
+										<DataTable.Row key={user.id}>
+											<DataTable.Cell>{user.name}</DataTable.Cell>
+											<DataTable.Cell>{user.email}</DataTable.Cell>
+											<DataTable.Cell>{user.phone || '-'}</DataTable.Cell>
+											<DataTable.Cell>{user.birthDate || '-'}</DataTable.Cell>
+											<DataTable.Cell>
+												<View style={styles.actionRow}>
+													<Pressable
+														style={[styles.iconButton, { backgroundColor: 'yellow' }]}
+														onPress={() => openModal('view')}
+													>
+														<Ionicons name="eye" size={18} color="black" />
+													</Pressable>
+													<Pressable
+														style={[styles.iconButton, { backgroundColor: 'blue' }]}
+														onPress={() => openModal('edit')}
+													>
+														<Ionicons name="pencil" size={18} color="white" />
+													</Pressable>
+													<Pressable
+														style={[styles.iconButton, { backgroundColor: 'red' }]}
+														onPress={() => openModal('delete')}
+													>
+														<Ionicons name="trash" size={18} color="white" />
+													</Pressable>
+												</View>
+											</DataTable.Cell>
+										</DataTable.Row>
+									))}
+								</DataTable>
+							</ScrollView>
+						</Card.Content>
+
+          </Card>
+        </ScrollView>
+
+        <Portal>
+					<Toast />
+          <Modal visible={visible} onDismiss={closeModal} contentContainerStyle={styles.modal}>
+
+						{modalType === 'add' && (
+              <View>
+                <Text style={styles.modalText}>Add User</Text>
+                <TextInput
+									style={styles.input}
+									placeholder="Name"
+									value={formData.name}
+									onChangeText={(text) => handleChange('name', text)}
+								/>
+
+								<TextInput
+									style={styles.input}
+									placeholder="Email"
+									keyboardType="email-address"
+									value={formData.email}
+									onChangeText={(text) => handleChange('email', text)}
+								/>
+                <View style={styles.modalActions}>
+                  <Pressable style={[styles.button, styles.button]} onPress={handleCreate}>
+                    <Text style={styles.textStyle}>Submit</Text>
+                  </Pressable>
+                  <Pressable style={[styles.button, styles.buttonClose]} onPress={closeModal}>
+                    <Text style={styles.textStyle}>Cancel</Text>
+                  </Pressable>
+                </View>
+              </View>
+            )}
+
+            {modalType === 'view' && (
+              <View>
+                <Text>Name:</Text>
+                <TextInput value={formData.name} editable={false} style={styles.input} />
+                <Text>Email:</Text>
+                <TextInput value={formData.email} editable={false} style={styles.input} />
+                <View style={styles.modalActions}>
+                  <Pressable style={[styles.button, styles.buttonClose]} onPress={closeModal}>
+                    <Text style={styles.textStyle}>Cancel</Text>
+                  </Pressable>
+                </View>
+              </View>
+            )}
+
+            {modalType === 'edit' && (
+              <View>
+                <Text style={styles.modalText}>Edit User Details</Text>
+                <TextInput
+									style={styles.input}
+									placeholder="Name"
+									value={formData.name}
+									onChangeText={(text) => handleChange('name', text)}
+								/>
+
+								<TextInput
+									style={styles.input}
+									placeholder="Email"
+									keyboardType="email-address"
+									value={formData.email}
+									onChangeText={(text) => handleChange('email', text)}
+								/>
+                <View style={styles.modalActions}>
+                  <Pressable style={[styles.button, styles.button]} onPress={closeModal}>
+                    <Text style={styles.textStyle}>Submit</Text>
+                  </Pressable>
+                  <Pressable style={[styles.button, styles.buttonClose]} onPress={closeModal}>
+                    <Text style={styles.textStyle}>Cancel</Text>
+                  </Pressable>
+                </View>
+              </View>
+            )}
+
+            {modalType === 'delete' && (
+              <View>
+                <Text>Are you sure you want to delete this user?</Text>
+                <View style={styles.modalActions}>
+                  <Pressable style={[styles.button, styles.button]} onPress={deleteUser}>
+                    <Text style={styles.textStyle}>Submit</Text>
+                  </Pressable>
+                  <Pressable style={[styles.button, styles.buttonClose]} onPress={closeModal}>
+                    <Text style={styles.textStyle}>Cancel</Text>
+                  </Pressable>
+                </View>
+              </View>
+            )}
+
+          </Modal>
+        </Portal>
+      </SafeAreaProvider>
+    </Provider>
   );
 }
 
 const styles = StyleSheet.create({
-
   container: {
     flex: 1,
+    padding: 16,
+    borderRadius: 12,
   },
 
-  placeholderContent: {
-    height: 300,
-    margin: 20,
-    backgroundColor: '#ccc',
-    borderRadius: 10,
+  card: {
+    marginBottom: 16,
+    elevation: 4,
+    borderRadius: 12,
   },
-  
+
+  modal: {
+    backgroundColor: '#fff',
+    padding: 20,
+    margin: 20,
+    borderRadius: 12,
+  },
+
+  input: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 12,
+    padding: 8,
+    marginBottom: 16,
+  },
+
+  actionRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  iconButton: {
+    padding: 8,
+    borderRadius: 12,
+    marginHorizontal: 4,
+  },
+
+  button: {
+		backgroundColor: 'rgb(5, 55, 255)',
+    borderRadius: 12,
+    padding: 10,
+    elevation: 2,
+  },
+
+  buttonClose: {
+    backgroundColor: 'rgb(94, 94, 94)',
+    borderRadius: 12,
+    marginLeft: 8,
+  },
+
+  textStyle: {
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+  },
+
+  modalActions: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    width: '100%',
+  },
+	
 });

@@ -1,4 +1,3 @@
-// import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
@@ -13,33 +12,36 @@ export default function RootLayout() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const protectedRoutes = ['/', '/promotion', '/favorite', '/profile'];
+    const protectedRoutes = ['/', '/promotion', '/favorite', '/user', '/profile'];
 
     if (protectedRoutes.includes(pathname)) {
       const checkLogin = async () => {
-        const token = await getToken();
-        if (token) {
-          try {
-            const response = await fetch('http://localhost:1001/api/auth/check-token', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ token }),
-            });
+        try {
+          const token = await getToken();
 
-            const result = await response.json();
-            if (result.status !== 'success') {
-              router.replace('/login');
-            }
-            // Jika sukses, biarkan tetap di path sekarang
-          } catch (err) {
+          if (!token) {
+            router.replace('/login');
+            return;
+          }
+
+          const response = await fetch('http://localhost:1001/api/auth/check-token', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ token }),
+          });
+
+          const result = await response.json();
+
+          if (result.status !== 'success') {
             router.replace('/login');
           }
-        } else {
+        } catch (err) {
           router.replace('/login');
         }
       };
+
       checkLogin();
     }
   }, [pathname]);
