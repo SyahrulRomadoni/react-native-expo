@@ -17,8 +17,9 @@ import { getToken } from '../../utils/tokenStorage';
 
 export default function UserScreen() {
 	const colorScheme = useColorScheme();
-  const isDark = colorScheme === 'dark';
+	const isDark = colorScheme === 'dark';
 
+	// Define the types for Users and Roles
 	interface Users {
 		id: number;
 		roles: string;
@@ -33,6 +34,7 @@ export default function UserScreen() {
 		name: string;
 	}
 
+	// Define the initial state for formData
 	const [formData, setFormData] = useState({
 		id: '',
 		id_role: '',
@@ -43,13 +45,15 @@ export default function UserScreen() {
 		birthDate: '',
 		password: '',
 	});
-  
+
+	// Define the state for users, roles, selected ID, modal visibility, and modal type
 	const [users, setUsers] = useState<Users[]>([]);
 	const [roles, setRoles] = useState<Roles[]>([]);
 	const [idSelected, setIdSelected] = useState<number | null>(null);
-  const [visible, setVisible] = useState(false);
-  const [modalType, setModalType] = useState('');
+	const [visible, setVisible] = useState(false);
+	const [modalType, setModalType] = useState('');
 
+	// Fetch data from the API
 	const fetchData = async () => {
 		try {
 			const token = await getToken();
@@ -102,10 +106,12 @@ export default function UserScreen() {
 		}
 	};	
 
+	// Fetch data when the component mounts
   useEffect(() => {
 		fetchData();
 	}, []);	
 
+	// Modal functions For Create, Edit, View, and Delete
   const openModalCreateDelete = (type: string, id: number) => {
     setModalType(type);
     setVisible(true);	
@@ -167,6 +173,7 @@ export default function UserScreen() {
 		});
   };
 
+	// Handle input changes
 	const handleChange = (name: string, value: string) => {
 		setFormData({
 			...formData,
@@ -174,6 +181,7 @@ export default function UserScreen() {
 		});
 	};
 
+	// Handle create, update, and delete actions
 	const handleCreate = async () => {
 		const errorMessages: { [key: string]: string } = {
 			id_role: 'Role cannot be empty.',
@@ -325,9 +333,13 @@ export default function UserScreen() {
     <Provider>
       <SafeAreaProvider>				
 				
+				{/* Scroll View */}
         <ScrollView style={[styles.container, { backgroundColor: isDark ? '#151718' : '#D0D0D0' }]}>
+
+					{/* Card */}
           <Card style={[styles.card, { backgroundColor: isDark ? '#1c1c1c' : '#FFFFFF' }]}>
 						
+						{/* Card Header */}
 						<Card.Title
 							title="User Data"
 							right={() => (
@@ -340,6 +352,7 @@ export default function UserScreen() {
 							)}
 						/>
 
+						{/* Card Content */}
 						<Card.Content>
 							<ScrollView horizontal>
 								<DataTable>
@@ -388,12 +401,20 @@ export default function UserScreen() {
 						</Card.Content>
 
           </Card>
+
         </ScrollView>
 
+				{/* Portal */}
+				{/* Toast Message and modal */}
         <Portal>
+
+					{/* Toast Message */}
 					<Toast />
+
+					{/* Modal */}
           <Modal visible={visible} onDismiss={closeModal} contentContainerStyle={styles.modal}>
 
+						{/* Form Add */}
 						{modalType === 'add' && (
               <View>
                 <Text style={styles.modalText}>Add User</Text>
@@ -448,6 +469,7 @@ export default function UserScreen() {
               </View>
             )}
 
+						{/* Form View */}
             {modalType === 'view' && (
               <View>
 								<Text>Role:</Text>
@@ -475,9 +497,10 @@ export default function UserScreen() {
               </View>
             )}
 
+						{/* Form Edit */}
             {modalType === 'edit' && (
               <View>
-                <Text style={styles.modalText}>Edit User Details</Text>
+                <Text style={styles.modalText}>Edit User</Text>
 
 								<Text>Role:</Text>
 								<Picker
@@ -529,18 +552,19 @@ export default function UserScreen() {
               </View>
             )}
 
+						{/* Form Delete */}
             {modalType === 'delete' && (
-              <View>
-                <Text>Are you sure you want to delete this user?</Text>
-                <View style={styles.modalActions}>
-                  <Pressable style={[styles.button, styles.button]} onPress={handleDelete}>
-                    <Text style={styles.textStyle}>Delete</Text>
-                  </Pressable>
-                  <Pressable style={[styles.button, styles.buttonClose]} onPress={closeModal}>
-                    <Text style={styles.textStyle}>Cancel</Text>
-                  </Pressable>
-                </View>
-              </View>
+								<View style={{ alignItems: 'center' }}>
+								<Text style={{ textAlign: 'center', marginVertical: 20, fontSize: 16 }}>Are you sure you want to delete this user?</Text>
+								<View style={[styles.modalActions, { marginTop: 10 }]}>
+									<Pressable style={[styles.button, styles.button, { marginRight: 10 }]} onPress={handleDelete}>
+									<Text style={styles.textStyle}>Delete</Text>
+									</Pressable>
+									<Pressable style={[styles.button, styles.buttonClose]} onPress={closeModal}>
+									<Text style={styles.textStyle}>Cancel</Text>
+									</Pressable>
+								</View>
+								</View>
             )}
 
           </Modal>
