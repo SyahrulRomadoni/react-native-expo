@@ -554,7 +554,7 @@ export default function UserScreen() {
 
 						{/* Form Delete */}
             {modalType === 'delete' && (
-								<View style={{ alignItems: 'center' }}>
+							<View style={{ alignItems: 'center' }}>
 								<Text style={{ textAlign: 'center', marginVertical: 20, fontSize: 16 }}>Are you sure you want to delete this user?</Text>
 								<View style={[styles.modalActions, { marginTop: 10 }]}>
 									<Pressable style={[styles.button, styles.button, { marginRight: 10 }]} onPress={handleDelete}>
@@ -564,7 +564,7 @@ export default function UserScreen() {
 									<Text style={styles.textStyle}>Cancel</Text>
 									</Pressable>
 								</View>
-								</View>
+							</View>
             )}
 
           </Modal>

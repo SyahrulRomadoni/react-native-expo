@@ -79,6 +79,7 @@ export default function Login() {
       <Text style={[styles.titleText, { color: isDark ? '#fff' : '#000' }]}>
         Hello <HelloWave />
       </Text>
+      
       <Text style={[styles.subText, { color: isDark ? '#ccc' : '#555' }]}>
         Selamat Datang di App XXX
       </Text>

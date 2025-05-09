@@ -28,31 +28,31 @@ export default function ProfileScreen() {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const token = await getToken();
-      if (token) {
-        try {
-          const response = await fetch('http://localhost:1001/api/user/current', {
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${token}`,
-            },
-          });
+  const fetchUserData = async () => {
+    const token = await getToken();
+    if (token) {
+      try {
+        const response = await fetch('http://localhost:1001/api/user/current', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-          const result = await response.json();
-          if (result.status === 'success') {
-            setFullname(result.data.name);
-            setEmail(result.data.email);
-            setBirthDate(result.data.birthDate || '');
-          }
-        } catch {
-          Alert.alert('Error', 'Failed to fetch user data.');
+        const result = await response.json();
+        if (result.status === 'success') {
+          setFullname(result.data.name);
+          setEmail(result.data.email);
+          setBirthDate(result.data.birthDate || '');
         }
+      } catch {
+        Alert.alert('Error', 'Failed to fetch user data.');
       }
-    };
+    }
+  };
 
+  useEffect(() => {
     fetchUserData();
   }, []);
 
@@ -225,24 +225,29 @@ const getInputStyle = (isDark: boolean, isEditable: boolean) => ({
 });
 
 const styles = StyleSheet.create({
+
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+
   profileImage: {
     width: 110,
     height: 110,
     borderRadius: 100,
     marginRight: 20,
   },
+
   editButton: {
     marginLeft: 10,
   },
+
   label: {
     fontSize: 16,
     marginBottom: -20,
   },
+
   input: {
     padding: 15,
     borderRadius: 20,
@@ -251,27 +256,32 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginTop: 10,
   },
+
   image: {
     height: 300,
     width: 300,
     bottom: 0,
     left: 0,
   },
+
   rows: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     gap: 10,
     marginBottom: 100,
   },
+
   buttonHalf: {
     flex: 1,
     borderRadius: 20,
     paddingVertical: 12,
     alignItems: 'center',
   },
+
   buttonText: {
     color: 'white',
     fontSize: 16,
     fontWeight: 'bold',
   },
+
 });
