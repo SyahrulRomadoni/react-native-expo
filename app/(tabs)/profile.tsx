@@ -165,7 +165,7 @@ export default function ProfileScreen() {
         placeholderTextColor={isDark ? '#888' : '#aaa'}
       />
 
-      <Text style={[styles.label, { color: isDark ? '#fff' : '#000' }]}>BirthDate</Text>
+      <Text style={[styles.label2, { color: isDark ? '#fff' : '#000' }]}>BirthDate</Text>
       <ThemedView style={styles.rows}>
         <TextInput
           value={day}
@@ -174,7 +174,7 @@ export default function ProfileScreen() {
           keyboardType="number-pad"
           maxLength={2}
           placeholder="DD"
-          style={[styles.input, getInputStyle(isDark, isEditable)]}
+          style={[styles.input2, getInputStyle(isDark, isEditable)]}
           onBlur={handleDateChange}
         />
         <TextInput
@@ -184,7 +184,7 @@ export default function ProfileScreen() {
           keyboardType="number-pad"
           maxLength={2}
           placeholder="MM"
-          style={[styles.input, getInputStyle(isDark, isEditable)]}
+          style={[styles.input2, getInputStyle(isDark, isEditable)]}
           onBlur={handleDateChange}
         />
         <TextInput
@@ -194,12 +194,12 @@ export default function ProfileScreen() {
           keyboardType="number-pad"
           maxLength={4}
           placeholder="YYYY"
-          style={[styles.input, getInputStyle(isDark, isEditable)]}
+          style={[styles.input2, getInputStyle(isDark, isEditable)]}
           onBlur={handleDateChange}
         />
       </ThemedView>
 
-      <ThemedView style={styles.rows}>
+      <ThemedView style={[styles.rows, { marginTop: 60 }]}>
         <TouchableOpacity
           style={[styles.buttonHalf, { backgroundColor: isDark ? '#0ea5e9' : 'rgb(17, 0, 255)' }]}
           onPress={() => Alert.alert('Save', 'Profile saved successfully!')}
@@ -248,6 +248,11 @@ const styles = StyleSheet.create({
     marginBottom: -20,
   },
 
+  label2: {
+    fontSize: 16,
+    marginBottom: -10,
+  },
+
   input: {
     padding: 15,
     borderRadius: 20,
@@ -255,6 +260,15 @@ const styles = StyleSheet.create({
     width: '100%',
     fontSize: 16,
     marginTop: 10,
+  },
+
+  input2: {
+    padding: 15,
+    borderRadius: 20,
+    borderWidth: 1,
+    fontSize: 16,
+    width: '30%',
+    maxWidth: 100,
   },
 
   image: {
@@ -268,7 +282,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     gap: 10,
-    marginBottom: 100,
   },
 
   buttonHalf: {

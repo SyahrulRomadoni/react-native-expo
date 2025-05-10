@@ -134,11 +134,11 @@ export default function Login() {
         style={[
           styles.buttonStyle,
           {
-            backgroundColor: isDark ? '#444' : '#eee',
+            backgroundColor: isDark ? '#0ea5e9' : 'rgb(17, 0, 255)'
           },
         ]}
       >
-        <Text style={[styles.buttonText, { color: isDark ? '#fff' : '#000' }]}>
+        <Text style={[styles.buttonText, { color: isDark ? 'rgb(0, 0, 0)' : 'rgb(255,255,255)' }]}>
           <Feather name="log-in" size={16} /> Login
         </Text>
       </Pressable>
