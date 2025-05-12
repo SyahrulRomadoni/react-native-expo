@@ -88,6 +88,11 @@ export default function App() {
             ))}
           </View>
 
+          {/* Label */}
+          <View>
+            <Text style={styles.LabelText}>Tembus murah !!</Text>
+          </View>
+
           {/* Promo Info */}
           <View style={styles.promoInfoText}>
             <Text>Diskon s.d. 10rb/transaksi. Yuk, langganan...</Text>
@@ -243,9 +248,17 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-start'
   },
 
+  // Label
+  LabelText: {
+    marginHorizontal: 16,
+    fontWeight: 'bold',
+    fontSize: 25,
+  },
+
   // Promo Info
   promoInfoText: {
-    backgroundColor: '#dfffdc',
+    backgroundColor: 'rgba(130, 239, 84, 0.3)',
+    color: 'rgb(60, 60, 60)',
     padding: 10,
     marginHorizontal: 16,
     borderRadius: 10,
