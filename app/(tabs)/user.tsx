@@ -363,48 +363,50 @@ export default function UserScreen() {
 						{/* Card Content */}
 						<Card.Content>
 							<ScrollView horizontal>
-								<DataTable>
-									<DataTable.Header>
-										<DataTable.Title>Role</DataTable.Title>
-										<DataTable.Title>Name</DataTable.Title>
-										<DataTable.Title>Email</DataTable.Title>
-										<DataTable.Title>Phone</DataTable.Title>
-										<DataTable.Title>BirthDate</DataTable.Title>
-										<DataTable.Title style={{ flex: 1 }}>Actions</DataTable.Title>
-									</DataTable.Header>
 
-									{users.map((user) => (
-										<DataTable.Row key={user.id}>
-											<DataTable.Cell>{user.roles}</DataTable.Cell>
-											<DataTable.Cell>{user.name}</DataTable.Cell>
-											<DataTable.Cell>{user.email}</DataTable.Cell>
-											<DataTable.Cell>{user.phone || '-'}</DataTable.Cell>
-											<DataTable.Cell>{user.birthDate || '-'}</DataTable.Cell>
-											<DataTable.Cell>
-												<View style={styles.actionRow}>
-													<Pressable
-														style={[styles.iconButton, { backgroundColor: 'yellow' }]}
-														onPress={() => openModalViewAndEdit('view', user.id)}
-													>
-														<Ionicons name="eye" size={18} color="black" />
-													</Pressable>
-													<Pressable
-														style={[styles.iconButton, { backgroundColor: 'blue' }]}
-														onPress={() => openModalViewAndEdit('edit', user.id)}
-													>
-														<Ionicons name="pencil" size={18} color="white" />
-													</Pressable>
-													<Pressable
-														style={[styles.iconButton, { backgroundColor: 'red' }]}
-														onPress={() => openModalCreateDelete('delete', user.id)}
-													>
-														<Ionicons name="trash" size={18} color="white" />
-													</Pressable>
-												</View>
-											</DataTable.Cell>
-										</DataTable.Row>
-									))}
-								</DataTable>
+								<DataTable>
+								<DataTable.Header>
+									<DataTable.Title style={{ width: 80 }}>Role</DataTable.Title>
+									<DataTable.Title style={{ width: 120 }}>Name</DataTable.Title>
+									<DataTable.Title style={{ width: 180 }}>Email</DataTable.Title>
+									<DataTable.Title style={{ width: 120 }}>Phone</DataTable.Title>
+									<DataTable.Title style={{ width: 120 }}>BirthDate</DataTable.Title>
+									<DataTable.Title style={{ width: 150 }}>Actions</DataTable.Title>
+								</DataTable.Header>
+
+								{users.map((user) => (
+									<DataTable.Row key={user.id}>
+										<DataTable.Cell style={{ width: 80 }}>{user.roles}</DataTable.Cell>
+										<DataTable.Cell style={{ width: 120 }}>{user.name}</DataTable.Cell>
+										<DataTable.Cell style={{ width: 180 }}>{user.email}</DataTable.Cell>
+										<DataTable.Cell style={{ width: 120 }}>{user.phone || '-'}</DataTable.Cell>
+										<DataTable.Cell style={{ width: 120 }}>{user.birthDate || '-'}</DataTable.Cell>
+										<DataTable.Cell style={{ width: 150 }}>
+											<View style={styles.actionRow}>
+												<Pressable
+													style={[styles.iconButton, { backgroundColor: 'yellow' }]}
+													onPress={() => openModalViewAndEdit('view', user.id)}
+												>
+													<Ionicons name="eye" size={18} color="black" />
+												</Pressable>
+												<Pressable
+													style={[styles.iconButton, { backgroundColor: 'blue' }]}
+													onPress={() => openModalViewAndEdit('edit', user.id)}
+												>
+													<Ionicons name="pencil" size={18} color="white" />
+												</Pressable>
+												<Pressable
+													style={[styles.iconButton, { backgroundColor: 'red' }]}
+													onPress={() => openModalCreateDelete('delete', user.id)}
+												>
+													<Ionicons name="trash" size={18} color="white" />
+												</Pressable>
+											</View>
+										</DataTable.Cell>
+									</DataTable.Row>
+								))}
+							</DataTable>
+
 							</ScrollView>
 						</Card.Content>
 
@@ -587,7 +589,10 @@ const styles = StyleSheet.create({
   
 	container: {
     flex: 1,
-    padding: 16,
+    paddingTop: 60,
+		paddingLeft: 20,
+		paddingRight: 20,
+		paddingBottom: 20,
     borderRadius: 12,
   },
 

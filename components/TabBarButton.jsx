@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { Pressable, StyleSheet, useColorScheme } from 'react-native';
 import Animated, {
-    interpolate,
-    useAnimatedStyle,
-    useSharedValue,
-    withSpring,
+  interpolate,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
 } from 'react-native-reanimated';
 import { icons } from '../assets/icons';
 

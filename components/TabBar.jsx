@@ -54,7 +54,7 @@ const TabBar = ({ state, descriptors, navigation }) => {
             key={route.key}
             style={[
               styles.tabbarItem,
-              { backgroundColor: isDark ? '#1c1c1c' : '#FFFFFF' },
+              { backgroundColor: 'rgba(0,0,0,0)'},
             ]}
             onPress={onPress}
             onLongPress={onLongPress}
