@@ -6,13 +6,13 @@ import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
-    Alert,
-    Platform,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    useColorScheme,
+  Alert,
+  Platform,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  useColorScheme,
 } from 'react-native';
 import { getToken, removeToken } from '../../utils/tokenStorage';
 
@@ -67,7 +67,7 @@ export default function ProfileScreen() {
   const handleLogout = async () => {
     try {
       const token = await getToken();
-      const response = await fetch('http://localhost:1001/api/auth/logout', {
+      const response = await fetch(`${getBaseURL()}/api/auth/logout`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,

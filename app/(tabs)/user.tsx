@@ -2,14 +2,14 @@ import { Ionicons } from '@expo/vector-icons';
 import { Picker } from '@react-native-picker/picker';
 import React, { useEffect, useState } from 'react';
 import {
-    Platform,
-    Pressable,
-    ScrollView,
-    StyleSheet,
-    Text,
-    TextInput,
-    useColorScheme,
-    View,
+	Platform,
+	Pressable,
+	ScrollView,
+	StyleSheet,
+	Text,
+	TextInput,
+	useColorScheme,
+	View,
 } from 'react-native';
 import { Card, DataTable, Modal, Portal, Provider } from 'react-native-paper';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
