@@ -7,7 +7,7 @@ import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
   Alert,
-  Platform,
+  // Platform,
   StyleSheet,
   Text,
   TextInput,
@@ -27,10 +27,11 @@ export default function ProfileScreen() {
   const [isEditable, setIsEditable] = useState(false);
 
   const getBaseURL = () => {
-    if (Platform.OS === 'android') {
-      return 'http://10.0.2.2:1001';
-    }
-    return 'http://localhost:1001';
+    // if (Platform.OS === 'android') {
+    //   return 'http://10.0.2.2:1001';
+    // }
+    // return 'http://localhost:1001';
+    return 'https://api.mifc.ismartglobal.id';
   };
 
   const colorScheme = useColorScheme();
@@ -207,15 +208,15 @@ export default function ProfileScreen() {
         />
       </ThemedView>
 
-      <ThemedView style={[styles.rows, { marginTop: 60, marginBottom: 100 }]}>
+      <ThemedView style={[styles.rows, { marginTop: 50, marginBottom: 100 }]}>
         <TouchableOpacity
-          style={[styles.buttonHalf, { backgroundColor: isDark ? '#0ea5e9' : 'rgb(17, 0, 255)' }]}
+          style={[styles.buttonAction, { backgroundColor: isDark ? '#0ea5e9' : 'rgb(17, 0, 255)' }]}
           onPress={() => Alert.alert('Save', 'Profile saved successfully!')}
         >
           <ThemedText style={styles.buttonText}>Save</ThemedText>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.buttonHalf, { backgroundColor: isDark ? '#f87171' : 'rgb(255, 0, 0)' }]}
+          style={[styles.buttonAction, { backgroundColor: isDark ? '#f87171' : 'rgb(255, 0, 0)' }]}
           onPress={handleLogout}
         >
           <ThemedText style={styles.buttonText}>Logout</ThemedText>
@@ -292,7 +293,7 @@ const styles = StyleSheet.create({
     gap: 10,
   },
 
-  buttonHalf: {
+  buttonAction: {
     flex: 1,
     borderRadius: 20,
     paddingVertical: 12,
