@@ -20,6 +20,10 @@ const TabBar = ({ state, descriptors, navigation }) => {
   const shadowColor = isDark ? '#000' : '#000';
 
   return (
+  <>
+    <View style={[styles.cards, { backgroundColor: isDark ? '#000' : '#fff' }]}>
+    </View>
+
     <View style={[styles.tabbar, { backgroundColor, shadowColor }]}>
       {state.routes.map((route, index) => {
         const { options } = descriptors[route.key];
@@ -52,10 +56,7 @@ const TabBar = ({ state, descriptors, navigation }) => {
         return (
           <TabBarButton
             key={route.key}
-            style={[
-              styles.tabbarItem,
-              { backgroundColor: 'rgba(0,0,0,0)'},
-            ]}
+            style={[styles.tabbarItem]}
             onPress={onPress}
             onLongPress={onLongPress}
             isFocused={isFocused}
@@ -66,10 +67,19 @@ const TabBar = ({ state, descriptors, navigation }) => {
         );
       })}
     </View>
-  );
+  </>
+);
+
 };
 
 const styles = StyleSheet.create({
+  cards: {
+    height: 50,
+    width: 400,
+    backgroundColor: 'blue',
+    position: 'absolute',
+    bottom: 0,
+  },
   tabbar: {
     position: 'absolute',
     bottom: 25,
@@ -84,9 +94,11 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 10 },
     shadowRadius: 10,
     shadowOpacity: 0.1,
+    elevation: 3,
   },
   tabbarItem: {
     flex: 1,
+    backgroundColor: 'rgb(0,0,0,0)',
     justifyContent: 'center',
     alignItems: 'center',
   },

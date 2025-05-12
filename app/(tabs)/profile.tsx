@@ -207,7 +207,7 @@ export default function ProfileScreen() {
         />
       </ThemedView>
 
-      <ThemedView style={[styles.rows, { marginTop: 60 }]}>
+      <ThemedView style={[styles.rows, { marginTop: 60, marginBottom: 100 }]}>
         <TouchableOpacity
           style={[styles.buttonHalf, { backgroundColor: isDark ? '#0ea5e9' : 'rgb(17, 0, 255)' }]}
           onPress={() => Alert.alert('Save', 'Profile saved successfully!')}

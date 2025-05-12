@@ -6,7 +6,7 @@ export default function BerandaScreen() {
   const isDark = colorScheme === 'dark';
 
   return (
-    <ScrollView style={[styles.container, { backgroundColor: isDark ? '#151718' : '#D0D0D0' }]}>
+    <ScrollView style={[styles.container, { backgroundColor: isDark ? '#000' : '#fff' }]}>
       
       <Text style={{ fontSize: 20, color: isDark ? '#fff' : '#000' }}>
         Beranda
