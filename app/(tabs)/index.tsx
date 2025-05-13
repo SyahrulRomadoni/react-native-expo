@@ -2,14 +2,15 @@ import { Feather } from '@expo/vector-icons';
 import React from 'react';
 import {
   Image,
+  Platform,
   SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  useColorScheme,
-  View
+  View,
+  useColorScheme
 } from 'react-native';
 export default function App() {
   const colorScheme = useColorScheme();
@@ -93,7 +94,7 @@ export default function App() {
       image: 'https://lelogama.go-jek.com/cms_editor/2018/06/29/Januari_JKT_Martabak.jpg',
       jarakTempuh: '2.73 km',
       durasiWaktu: '25-35 min',
-      namaResto: 'Martabak 99 masakan manis gurih legit',
+      namaResto: 'Martabak 99 masakan manis gurih legit plus plus plus plus plus',
       rating: '4.8 - 3rb+ rating',
     },
     {
@@ -113,106 +114,137 @@ export default function App() {
   ];
 
   return (
-    // SafeAreaView
     <SafeAreaView style={{ flex: 1 }}>
-
+      
       {/* Search Bar + Profile */}
       <View
-        style={[
-          styles.fixedTop,
-          { backgroundColor: isDark ? 'rgb(28, 28, 28)' : 'rgb(255, 255, 255)' }
-        ]}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 999,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          borderRadius: 20,
+          paddingTop: Platform.OS === 'ios' ? 60 : 50,
+          paddingBottom: 12,
+          paddingHorizontal: 10,
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
+          elevation: 4,
+          backgroundColor: isDark ? 'rgb(28, 28, 28)' : 'rgb(255, 255, 255)'
+        }}
       >
-
-        {/* Input Search */}
-        <View
-          style={[
-            styles.inputGroup,
-            { backgroundColor: isDark ? 'rgb(255, 255, 255)' : 'rgb(240, 240, 240)' }
-          ]}
-        >
+        {/* Input Groups */}
+        <View style={{
+          flex: 1,
+          flexDirection: 'row',
+          alignItems: 'center',
+          backgroundColor: isDark ? 'rgb(230, 230, 230)' : 'rgb(230, 230, 230)',
+          borderRadius: 30,
+          paddingHorizontal: 10,
+          paddingVertical: Platform.OS === 'ios' ? 12 : 4,
+          marginRight: 20,
+        }}>
           <Feather
             name="search"
             style={{
-              fontSize: 20,
+              color: isDark ? 'rgb(170, 170, 170)' : 'rgb(170, 170, 170)',
+              fontSize: Platform.OS === 'ios' ? 20 : 24,
               marginLeft: 5,
-              color: isDark ? 'rgb(0, 0, 0)' : 'rgb(0, 0, 0)'
             }}
           />
           <TextInput
             placeholder="Pecel Lele, Bandeng..."
             style={{
               flex: 1,
-              marginLeft: 6,
+              fontSize: Platform.OS === 'ios' ? 15 : 17,
+              marginLeft: 5,
             }}
           />
         </View>
-        {/* End Input Search */}
-
-        {/* Profile */}
         <TouchableOpacity>
           <Feather
             name="user"
-            style={[
-              styles.iconAndBorder,
-              {
-                backgroundColor: 'rgb(25, 200, 20)',
-                color: 'rgb(255, 255, 255)',
-              }
-            ]}
+            style={{
+              borderRadius: 50,
+              padding: 10,
+              backgroundColor: 'rgb(25, 200, 20)',
+              color: 'rgb(255, 255, 255)',
+              fontSize: 20
+            }}
         />
         </TouchableOpacity>
-        {/* End Profile */}
-
       </View>
-      {/* End Search Bar + Profile */}
 
       {/* ScrollView */}
       <ScrollView style={{ flex: 1 }}>
         
-        {/* Container*/}
+        {/* Container */}
         <View
-          style={[
-            styles.container,
-            { backgroundColor: isDark ? 'rgb(0, 0, 0)' : 'rgb(255, 255, 255)' }
-          ]}
+          style={{
+            paddingTop: Platform.OS === 'ios' ? 43 : 100,
+            paddingBottom: Platform.OS === 'ios' ? 130 : 140,
+            backgroundColor: isDark ? 'rgb(0, 0, 0)' : 'rgb(255, 255, 255)',
+          }}
         >
 
           {/* Banner */}
-          <View>
+          <View
+            style={{
+              // paddingHorizontal: 16
+            }}
+          >
             <Image
-              style={styles.bannerTop}
+              style={{
+                width: '100%',
+                height: 200,
+              }}
               source={{ uri: 'https://play-lh.googleusercontent.com/IT-4gpRmMwvtYlw5M3JbamStGWlDArwYDXaWex0kbhEy-jyb5txK2Ri4GtS6syghui8' }}
             />
           </View>
-          {/* End Banner */}
 
           {/* Balance Section */}
           <View
-            style={ [
-              styles.card,
-              styles.rowBalance,
-              {
-                backgroundColor: isDark ? 'rgb(28,28,28)' : 'rgb(255, 255, 255)'
-              }
-            ]}
+            style={{
+              padding: 10,
+              margin: 10,
+              borderWidth: 1,
+              borderColor: '#ccc',
+              borderRadius: 12,
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 4 },
+              shadowOpacity: 0.2,
+              shadowRadius: 6,
+              elevation: 6,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              backgroundColor: isDark ? 'rgb(28,28,28)' : 'rgb(255, 255, 255)'
+            }}
           >
+            {/* Wallet */}
             <View>
               <Text
                 style={{
-                  fontSize: 20,
+                  fontSize: Platform.OS === 'ios' ? 18 : 22,
                   fontWeight: 'bold',
                   color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)'
                 }}
               >Rp 99.000.000</Text>
               <Text
                 style={{
-                  fontSize: 14,
-                  color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
+                  fontSize: Platform.OS === 'ios' ? 12 : 14,
+                  color: '#888',
                 }}
               >99.000.000 coins</Text>
             </View>
 
+            {/* Button */}
             <View
               style={{
                 flexDirection: 'row',
@@ -220,17 +252,21 @@ export default function App() {
               }}
             >
               <TouchableOpacity
-                style={styles.iconGroup}
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  paddingHorizontal: 4,
+                }}
               >
                 <Feather
                   name="send"
-                  style={[
-                    styles.iconAndBorder,
-                    {
-                      backgroundColor: 'rgb(25, 200, 20)',
-                      color: 'rgb(255, 255, 255)',
-                    }
-                  ]}
+                  style={{
+                    borderRadius: 50,
+                    padding: 10,
+                    backgroundColor: 'rgb(25, 200, 20)',
+                    color: 'rgb(255, 255, 255)',
+                    fontSize: 20
+                  }}
                 />
                 <Text
                   style={{
@@ -242,17 +278,21 @@ export default function App() {
               </TouchableOpacity>
 
               <TouchableOpacity
-                style={styles.iconGroup}
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  paddingHorizontal: 4,
+                }}
               >
                 <Feather
                   name="plus-circle"
-                  style={[
-                    styles.iconAndBorder,
-                    {
-                      backgroundColor: 'rgb(25, 200, 20)',
-                      color: 'rgb(255, 255, 255)',
-                    }
-                  ]}
+                  style={{
+                    borderRadius: 50,
+                    padding: 10,
+                    backgroundColor: 'rgb(25, 200, 20)',
+                    color: 'rgb(255, 255, 255)',
+                    fontSize: 20
+                  }}
                 />
                 <Text
                   style={{
@@ -264,17 +304,21 @@ export default function App() {
               </TouchableOpacity>
 
               <TouchableOpacity
-                style={styles.iconGroup}
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  paddingHorizontal: 4,
+                }}
               >
                 <Feather
                   name="more-horizontal"
-                  style={[
-                    styles.iconAndBorder,
-                    {
-                      backgroundColor: 'rgb(25, 200, 20)',
-                      color: 'rgb(255, 255, 255)',
-                    }
-                  ]}
+                  style={{
+                    borderRadius: 50,
+                    padding: 10,
+                    backgroundColor: 'rgb(25, 200, 20)',
+                    color: 'rgb(255, 255, 255)',
+                    fontSize: 20
+                  }}
                 />
                 <Text
                   style={{
@@ -287,28 +331,44 @@ export default function App() {
 
             </View>
           </View>
-          {/* End Balance Section */}
 
           {/* Services */}
-          <View style={styles.rowService}>
+          <View style={{
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            justifyContent: 'space-around',
+            padding: 10
+          }}>
+
             {servicesData.map((item, idx) => (
               <View
                 key={idx}
                 style={{
                   alignItems: 'center',
-                  width: 95,
+                  width: '25%',
                   marginBottom: 10,
                 }}
               >
+
                 <Text
-                  style={[
-                    styles.bridge,
-                    {
-                      backgroundColor: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
-                      color: isDark ? 'rgb(0, 0, 0)' : 'rgb(255, 255, 255)',
-                    }
-                  ]}
-                >{item.badge}</Text>
+                  style={{
+                    fontSize: 12,
+                    paddingHorizontal: 4,
+                    marginBottom: 2,
+                    alignSelf: 'flex-start',
+                    borderTopLeftRadius: 0,
+                    borderTopRightRadius: 10,
+                    borderBottomLeftRadius: 10,
+                    borderBottomRightRadius: 0,
+                    width: '60%',
+                    textAlign: 'center',
+                    backgroundColor: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
+                    color: isDark ? 'rgb(0, 0, 0)' : 'rgb(255, 255, 255)',
+                  }}
+                >
+                  {item.badge}
+                </Text>
+
                 <Image
                   source={{ uri: item.image }}
                   style={{
@@ -319,22 +379,26 @@ export default function App() {
                     resizeMode: 'contain',
                   }}
                 />
-                <Text style={{ color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)', }}>{item.name}</Text>
+
+                <Text>{item.name}</Text>
+                
               </View>
             ))}
+
           </View>
-          {/* End Services */}          
 
           {/* Label */}
-          <Text
-            style={{
-              marginHorizontal: 16,
-              fontWeight: 'bold',
-              fontSize: 25,
-              color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
-            }}
-          >Tebus murah !!</Text>
-          {/* End Label */}
+          <View>
+            <Text
+              style={{
+                marginHorizontal: 10,
+                fontWeight: 'bold',
+                fontSize: 20,
+                marginBottom: -10,
+                color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
+              }}
+            >Tebus murah !!</Text>
+          </View>
 
           {/* Promo Info */}
           <View
@@ -343,6 +407,7 @@ export default function App() {
               padding: 10,
               marginHorizontal: 10,
               borderRadius: 10,
+              marginTop: 10
             }}
           >
             <Text
@@ -351,9 +416,10 @@ export default function App() {
               style={{
                 color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)'
               }}
-            >Diskon s.d. 10rb/transaksi. Yuk, langganan GoPay Plus plus plus</Text>
+            >
+              Diskon s.d. 10rb/transaksi. Yuk, langganan GoPay Plus plus plus
+            </Text>
           </View>
-          {/* End Promo Info */}
 
           {/* Rating Resto */}
           <ScrollView
@@ -372,11 +438,17 @@ export default function App() {
                 <View
                     key={index}
                     style={[
-                      styles.cardTitle,
                       {
-                        width: 250,
-                        height: 280,
+                        borderWidth: 1,
+                        borderColor: '#ccc',
                         borderRadius: 12,
+                        shadowColor: '#000',
+                        shadowOffset: { width: 0, height: 4 },
+                        shadowOpacity: 0.2,
+                        shadowRadius: 6,
+                        elevation: 6,
+                        width: 250,
+                        height: Platform.OS === 'ios' ? 280 : 290,
                         marginBottom: 10,
                         backgroundColor: isDark ? 'rgb(28, 28, 28)' : 'rgb(255, 255, 255)',
                       }
@@ -391,87 +463,85 @@ export default function App() {
                     }}
                     source={{ uri: item.image }}
                   />
-                  <View style={{ padding: 10 }}>
-                    {/* Jarak Waktu */}
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        gap: 10
-                      }}
-                    >
+                  <View style={{ padding: 10, flex: 1, justifyContent: 'space-between' }}>
+  
+                    {/* Jarak Waktu (top) */}
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
                       <Text
                         style={{
-                            fontSize: 15,
-                            color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)'
+                          fontSize: Platform.OS === 'ios' ? 13 : 15,
+                          color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)'
                         }}
-                      >{item.jarakTempuh} - {item.durasiWaktu}</Text>
+                      >
+                        {item.jarakTempuh} - {item.durasiWaktu}
+                      </Text>
                     </View>
-                    {/* Text */}
+
+                    {/* Nama Resto (middle) */}
                     <View
                       style={{
                         flexDirection: 'row',
                         alignItems: 'center',
                         gap: 10,
                         width: '100%',
-                        marginTop: 10,
-                        marginBottom: 5,
+                        justifyContent: 'center',
+                        flex: 1,
                       }}
                     >
                       <Text
                         style={{
-                          fontSize: 20,
+                          fontSize: Platform.OS === 'ios' ? 14 : 18,
                           color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
-                          flex: 1,
                           fontWeight: 'bold',
+                          textAlign: 'left',
                         }}
                         numberOfLines={2}
                         ellipsizeMode="tail"
-                      >{item.namaResto}</Text>
+                      >
+                        {item.namaResto}
+                      </Text>
                     </View>
-                    {/* Rating */}
-                    <View
-                      style={{ 
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        gap: 10
-                      }}
-                    >
+
+                    {/* Rating (bottom) */}
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
                       <Feather name="star" size={20} color="rgb(140, 140, 140)" />
                       <Text
                         style={{
                           fontSize: 14,
                           color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)'
                         }}
-                      >{item.rating}</Text>
+                      >
+                        {item.rating}
+                      </Text>
                     </View>
-
                   </View>
+
                 </View>
               ))}
             </View>
           </ScrollView>
-          {/* End Rating Resto */}
 
           {/* Label */}
-          <Text
-            style={{
-              marginHorizontal: 16,
-              fontWeight: 'bold',
-              fontSize: 25,
-              color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
-            }}
-          >Tebus murah !!</Text>
-          {/* End Label */}
-          
+          <View>
+            <Text
+              style={{
+                marginHorizontal: 10,
+                fontWeight: 'bold',
+                fontSize: 20,
+                marginBottom: -10,
+                color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
+              }}
+            >Tebus murah !!</Text>
+          </View>
+
           {/* Promo Info */}
           <View
             style={{
               backgroundColor: 'rgba(130, 239, 84, 0.3)',
               padding: 10,
               marginHorizontal: 10,
-              marginVertical: 5,
               borderRadius: 10,
+              marginTop: 10
             }}
           >
             <Text
@@ -480,23 +550,33 @@ export default function App() {
               style={{
                 color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)'
               }}
-            >Diskon s.d. 10rb/transaksi. Yuk, langganan GoPay Plus plus plus</Text>
+            >
+              Diskon s.d. 10rb/transaksi. Yuk, langganan GoPay Plus plus plus
+            </Text>
           </View>
-          {/* End Promo Info */}
 
           {/* Banner Section */}
           {bannerList.map((banner) => (
             <View
               key={banner.id}
               style={[
-                styles.cardTitle,
                 {
+                  borderWidth: 1,
+                  borderColor: '#ccc',
+                  borderRadius: 12,
+                  shadowColor: '#000',
+                  shadowOffset: { width: 0, height: 4 },
+                  shadowOpacity: 0.2,
+                  shadowRadius: 6,
+                  elevation: 6,
                   marginHorizontal: 10,
                   marginVertical: 5,
                   backgroundColor: isDark ? 'rgb(28, 28, 28)' : 'rgb(255, 255, 255)'
                 }
               ]}
             >
+
+              {/* Image */}
               <Image
                 style={{
                   width: '100%',
@@ -506,12 +586,15 @@ export default function App() {
                 }}
                 source={{ uri: banner.image }}
               />
+
               <View style={{
                 paddingTop: 10,
                 paddingBottom: 20,
                 paddingLeft: 10,
                 paddingRight: 10,
               }}>
+
+                {/* Title */}
                 <View
                   style={{
                     flexDirection: 'row',
@@ -522,7 +605,7 @@ export default function App() {
                 >
                   <Text
                     style={{
-                      fontSize: 20,
+                      fontSize: Platform.OS === 'ios' ? 14 : 16,
                       color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
                       flex: 1,
                       fontWeight: 'bold',
@@ -533,6 +616,8 @@ export default function App() {
                     {banner.title}
                   </Text>
                 </View>
+                
+                {/* Sub Text */}
                 <View
                   style={{ 
                     flexDirection: 'row',
@@ -542,7 +627,7 @@ export default function App() {
                 >
                   <Text
                     style={{
-                      fontSize: 14,
+                      fontSize: Platform.OS === 'ios' ? 12 : 14,
                       color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)'
                     }}
                   >
@@ -550,230 +635,17 @@ export default function App() {
                   </Text>
                   <Feather name="star" size={20} color="rgb(140, 140, 140)" />
                 </View>
+
               </View>
             </View>
           ))}
-          {/* End Banner Section */}
-
-          {/* Label */}
-          <Text
-            style={{
-              marginHorizontal: 16,
-              fontWeight: 'bold',
-              fontSize: 25,
-              color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
-            }}
-          >Tebus murah !!</Text>
-          {/* End Label */}
-
-          {/* Rating Resto */}
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-          >
-            <View
-              style={{
-                flexDirection: 'row',
-                paddingHorizontal: 16,
-                marginTop: 10,
-                gap: 10,
-              }}
-            >
-              {restoData.map((item, index) => (
-                <View
-                    key={index}
-                    style={[
-                      styles.cardTitle,
-                      {
-                        width: 250,
-                        height: 280,
-                        borderRadius: 12,
-                        marginBottom: 10,
-                        backgroundColor: isDark ? 'rgb(28, 28, 28)' : 'rgb(255, 255, 255)',
-                      }
-                    ]}
-                  >
-                  <Image
-                    style={{
-                      width: '100%',
-                      height: 150,
-                      borderTopLeftRadius: 12,
-                      borderTopRightRadius: 12,
-                    }}
-                    source={{ uri: item.image }}
-                  />
-                  <View style={{ padding: 10 }}>
-                    {/* Jarak Waktu */}
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        gap: 10
-                      }}
-                    >
-                      <Text
-                        style={{
-                            fontSize: 15,
-                            color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)'
-                        }}
-                      >{item.jarakTempuh} - {item.durasiWaktu}</Text>
-                    </View>
-                    {/* Text */}
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        gap: 10,
-                        width: '100%',
-                        marginTop: 10,
-                        marginBottom: 5,
-                      }}
-                    >
-                      <Text
-                        style={{
-                          fontSize: 20,
-                          color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
-                          flex: 1,
-                          fontWeight: 'bold',
-                        }}
-                        numberOfLines={2}
-                        ellipsizeMode="tail"
-                      >{item.namaResto}</Text>
-                    </View>
-                    {/* Rating */}
-                    <View
-                      style={{ 
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        gap: 10
-                      }}
-                    >
-                      <Feather name="star" size={20} color="rgb(140, 140, 140)" />
-                      <Text
-                        style={{
-                          fontSize: 14,
-                          color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)'
-                        }}
-                      >{item.rating}</Text>
-                    </View>
-
-                  </View>
-                </View>
-              ))}
-            </View>
-          </ScrollView>
-          {/* End Rating Resto */}
           
         </View>
-        {/* End Container */}
 
       </ScrollView>
-      {/* End ScrollView */}
-
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  fixedTop: {
-    // Fixed to top
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    zIndex: 999,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    // Border radius
-    borderEndStartRadius: 20,
-    borderEndEndRadius: 20,
-    // Padding
-    paddingTop: 50,
-    paddingBottom: 12,
-    paddingHorizontal: 16,
-    // Shadow
-    // - Android
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    // - iOS
-    elevation: 4,
-  },
-  container: {
-    paddingTop: 90,
-    paddingBottom: 130,
-  },
-  card: {
-    padding: 10,
-    margin: 10,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 6,
-    elevation: 6,
-  },
-  cardTitle: {
-    
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 6,
-    elevation: 6,
-  },
-
-  inputGroup: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderRadius: 30,
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    marginRight: 20,
-  },
-  bannerTop: {
-    width: '100%',
-    height: 200,
-  },
-  iconGroup: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 10,
-  },
-  iconAndBorder: {
-    borderRadius: 50,
-    padding: 10,
-    fontSize: 20
-  },
-  rowBalance: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  rowService: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-    paddingHorizontal: 10,
-    paddingVertical: 10,
-  },
-  bridge: {
-    padding: 5,
-    width: 60,
-    marginBottom: 2,
-    fontSize: 14,
-    alignSelf: 'flex-start',
-    borderTopStartRadius: 0,
-    borderTopEndRadius: 15,
-    borderEndStartRadius: 15,
-    borderEndEndRadius: 0,
-    textAlign: 'center',
-  },
 });
