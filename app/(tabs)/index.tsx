@@ -8,8 +8,8 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View,
-  useColorScheme
+  useColorScheme,
+  View
 } from 'react-native';
 export default function App() {
   const colorScheme = useColorScheme();
@@ -17,14 +17,75 @@ export default function App() {
 
   // Dummy data
   const servicesData = [
-    { name: 'GoRide', badge: '5RB' },
-    { name: 'GoCar', badge: '10RB' },
-    { name: 'GoFood', badge: '15RB' },
-    { name: 'GoSend', badge: '8RB' },
-    { name: 'GoShop', badge: '12RB' },
-    { name: 'GoMart', badge: '6RB' },
-    { name: 'GoBox', badge: '20RB' },
-    { name: 'GoPulsa', badge: '3RB' },
+    {
+      id: 1,
+      name: 'GoRide',
+      badge: '5RB',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg',
+    },
+    {
+      id: 2,
+      name: 'GoRide',
+      badge: '5RB',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg',
+    },
+    {
+      id: 3,
+      name: 'GoRide',
+      badge: '5RB',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg',
+    },
+    {
+      id: 4,
+      name: 'GoRide',
+      badge: '5RB',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg',
+    },
+    {
+      id: 5,
+      name: 'GoRide',
+      badge: '5RB',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg',
+    },
+    {
+      id: 6,
+      name: 'GoRide',
+      badge: '5RB',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg',
+    },
+    {
+      id: 7,
+      name: 'GoRide',
+      badge: '5RB',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg',
+    },
+    {
+      id: 8,
+      name: 'GoRide',
+      badge: '5RB',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg',
+    },
+  ];
+
+  const bannerList = [
+    {
+      id: 1,
+      image: 'https://lelogama.go-jek.com/post_featured_image/promo-tokopedia-agustus.jpg',
+      title: 'Promo Tokopedia WIB Kali Ini Edisi Spesial Ulang Tahun!',
+      subtitle: 'Diskon s.d 35RB pake GoRide & GoCar!',
+    },
+    {
+      id: 2,
+      image: 'https://lelogama.go-jek.com/post_featured_image/promo-kesebelasan-Anniv_GoFood_Blog-Banner_1456x818_200rb.jpg',
+      title: 'Promo Kesebelasan GoFood: Diskon s.d 200rb & diskon ongkir',
+      subtitle: 'Diskon 50% untuk pengguna baru!',
+    },
+    {
+      id: 3,
+      image: 'https://lelogama.go-jek.com/post_featured_image/Screenshot_2023-09-14_104658.png',
+      title: 'Promo Hari Perhubungan Nasional!',
+      subtitle: 'Cashback hingga 75RB dengan GoPay!',
+    },
   ];
 
   const restoData = [
@@ -52,48 +113,30 @@ export default function App() {
   ];
 
   return (
+    // SafeAreaView
     <SafeAreaView style={{ flex: 1 }}>
-      
+
       {/* Search Bar + Profile */}
       <View
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 999,
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          borderEndStartRadius: 20,
-          borderEndEndRadius: 20,
-          paddingTop: 50,
-          paddingBottom: 12,
-          paddingHorizontal: 16,
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 2 },
-          shadowOpacity: 0.1,
-          shadowRadius: 4,
-          elevation: 4,
-          backgroundColor: isDark ? 'rgb(28, 28, 28)' : 'rgb(255, 255, 255)'
-        }}
+        style={[
+          styles.fixedTop,
+          { backgroundColor: isDark ? 'rgb(28, 28, 28)' : 'rgb(255, 255, 255)' }
+        ]}
       >
-        <View style={{
-          flex: 1,
-          flexDirection: 'row',
-          alignItems: 'center',
-          backgroundColor: '#f1f1f1',
-          borderRadius: 30,
-          paddingHorizontal: 10,
-          paddingVertical: 6,
-          marginRight: 20,
-        }}>
+
+        {/* Input Search */}
+        <View
+          style={[
+            styles.inputGroup,
+            { backgroundColor: isDark ? 'rgb(255, 255, 255)' : 'rgb(240, 240, 240)' }
+          ]}
+        >
           <Feather
             name="search"
             style={{
-              color: 'rgb(140, 140, 140)',
               fontSize: 20,
               marginLeft: 5,
+              color: isDark ? 'rgb(0, 0, 0)' : 'rgb(0, 0, 0)'
             }}
           />
           <TextInput
@@ -104,63 +147,55 @@ export default function App() {
             }}
           />
         </View>
+        {/* End Input Search */}
+
+        {/* Profile */}
         <TouchableOpacity>
           <Feather
             name="user"
-            style={{
-              borderRadius: 50,
-              padding: 10,
-              backgroundColor: 'rgb(25, 200, 20)',
-              color: 'rgb(255, 255, 255)',
-              fontSize: 20
-            }}
+            style={[
+              styles.iconAndBorder,
+              {
+                backgroundColor: 'rgb(25, 200, 20)',
+                color: 'rgb(255, 255, 255)',
+              }
+            ]}
         />
         </TouchableOpacity>
+        {/* End Profile */}
+
       </View>
+      {/* End Search Bar + Profile */}
 
       {/* ScrollView */}
       <ScrollView style={{ flex: 1 }}>
         
-        {/* Container */}
+        {/* Container*/}
         <View
-          style={{
-            paddingTop: 90,
-            paddingBottom: 130,
-            backgroundColor: isDark ? 'rgb(0, 0, 0)' : 'rgb(255, 255, 255)',
-          }}
+          style={[
+            styles.container,
+            { backgroundColor: isDark ? 'rgb(0, 0, 0)' : 'rgb(255, 255, 255)' }
+          ]}
         >
 
           {/* Banner */}
-          <View
-            style={{
-              // paddingHorizontal: 16
-            }}
-          >
+          <View>
             <Image
-              style={{
-                width: '100%',
-                height: 200,
-              }}
+              style={styles.bannerTop}
               source={{ uri: 'https://play-lh.googleusercontent.com/IT-4gpRmMwvtYlw5M3JbamStGWlDArwYDXaWex0kbhEy-jyb5txK2Ri4GtS6syghui8' }}
             />
           </View>
+          {/* End Banner */}
 
           {/* Balance Section */}
           <View
-            style={{
-              padding: 16,
-              borderRadius: 16,
-              margin: 16,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              shadowColor: '#000',
-              shadowOffset: { width: 0, height: 4 },
-              shadowOpacity: 0.2,
-              shadowRadius: 6,
-              elevation: 6,
-              backgroundColor: isDark ? 'rgb(28,28,28)' : 'rgb(255, 255, 255)'
-            }}
+            style={ [
+              styles.card,
+              styles.rowBalance,
+              {
+                backgroundColor: isDark ? 'rgb(28,28,28)' : 'rgb(255, 255, 255)'
+              }
+            ]}
           >
             <View>
               <Text
@@ -173,7 +208,7 @@ export default function App() {
               <Text
                 style={{
                   fontSize: 14,
-                  color: '#888',
+                  color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
                 }}
               >99.000.000 coins</Text>
             </View>
@@ -185,21 +220,17 @@ export default function App() {
               }}
             >
               <TouchableOpacity
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  paddingHorizontal: 10,
-                }}
+                style={styles.iconGroup}
               >
                 <Feather
                   name="send"
-                  style={{
-                    borderRadius: 50,
-                    padding: 10,
-                    backgroundColor: 'rgb(25, 200, 20)',
-                    color: 'rgb(255, 255, 255)',
-                    fontSize: 20
-                  }}
+                  style={[
+                    styles.iconAndBorder,
+                    {
+                      backgroundColor: 'rgb(25, 200, 20)',
+                      color: 'rgb(255, 255, 255)',
+                    }
+                  ]}
                 />
                 <Text
                   style={{
@@ -211,21 +242,17 @@ export default function App() {
               </TouchableOpacity>
 
               <TouchableOpacity
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  paddingHorizontal: 10,
-                }}
+                style={styles.iconGroup}
               >
                 <Feather
                   name="plus-circle"
-                  style={{
-                    borderRadius: 50,
-                    padding: 10,
-                    backgroundColor: 'rgb(25, 200, 20)',
-                    color: 'rgb(255, 255, 255)',
-                    fontSize: 20
-                  }}
+                  style={[
+                    styles.iconAndBorder,
+                    {
+                      backgroundColor: 'rgb(25, 200, 20)',
+                      color: 'rgb(255, 255, 255)',
+                    }
+                  ]}
                 />
                 <Text
                   style={{
@@ -237,21 +264,17 @@ export default function App() {
               </TouchableOpacity>
 
               <TouchableOpacity
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  paddingHorizontal: 10,
-                }}
+                style={styles.iconGroup}
               >
                 <Feather
                   name="more-horizontal"
-                  style={{
-                    borderRadius: 50,
-                    padding: 10,
-                    backgroundColor: 'rgb(25, 200, 20)',
-                    color: 'rgb(255, 255, 255)',
-                    fontSize: 20
-                  }}
+                  style={[
+                    styles.iconAndBorder,
+                    {
+                      backgroundColor: 'rgb(25, 200, 20)',
+                      color: 'rgb(255, 255, 255)',
+                    }
+                  ]}
                 />
                 <Text
                   style={{
@@ -264,61 +287,62 @@ export default function App() {
 
             </View>
           </View>
+          {/* End Balance Section */}
 
           {/* Services */}
-          <View style={{
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'space-around',
-            padding: 10
-          }}>
+          <View style={styles.rowService}>
             {servicesData.map((item, idx) => (
               <View
                 key={idx}
                 style={{
                   alignItems: 'center',
-                  margin: 10,
-                  width: 70
+                  width: 95,
+                  marginBottom: 10,
                 }}
               >
                 <Text
-                  style={{
-                    fontSize: 12,
-                    paddingHorizontal: 4,
-                    marginBottom: 2,
-                    alignSelf: 'flex-start',
-                    borderTopStartRadius: 0,
-                    borderTopEndRadius: 20,
-                    borderEndStartRadius: 20,
-                    borderEndEndRadius: 0,
-                    width: 50,
-                    textAlign: 'center',
-                    backgroundColor: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
-                    color: isDark ? 'rgb(0, 0, 0)' : 'rgb(255, 255, 255)',
-                  }}
+                  style={[
+                    styles.bridge,
+                    {
+                      backgroundColor: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
+                      color: isDark ? 'rgb(0, 0, 0)' : 'rgb(255, 255, 255)',
+                    }
+                  ]}
                 >{item.badge}</Text>
-                <View
+                <Image
+                  source={{ uri: item.image }}
                   style={{
-                    width: 60,
-                    height: 60,
-                    backgroundColor: '#cce',
-                    borderRadius: 5,
-                    marginBottom: 5 
+                    width: '90%',
+                    height: 80,
+                    borderRadius: 10,
+                    marginBottom: 5,
+                    resizeMode: 'contain',
                   }}
-                ></View>
-                <Text>{item.name}</Text>
+                />
+                <Text style={{ color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)', }}>{item.name}</Text>
               </View>
             ))}
           </View>
+          {/* End Services */}          
+
+          {/* Label */}
+          <Text
+            style={{
+              marginHorizontal: 16,
+              fontWeight: 'bold',
+              fontSize: 25,
+              color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
+            }}
+          >Tebus murah !!</Text>
+          {/* End Label */}
 
           {/* Promo Info */}
           <View
             style={{
               backgroundColor: 'rgba(130, 239, 84, 0.3)',
               padding: 10,
-              marginHorizontal: 16,
+              marginHorizontal: 10,
               borderRadius: 10,
-              marginTop: 10
             }}
           >
             <Text
@@ -327,128 +351,37 @@ export default function App() {
               style={{
                 color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)'
               }}
-            >
-              Diskon s.d. 10rb/transaksi. Yuk, langganan GoPay Plus plus plus
-            </Text>
+            >Diskon s.d. 10rb/transaksi. Yuk, langganan GoPay Plus plus plus</Text>
           </View>
-
-          {/* Banner */}
-          <View
-            style={{
-              padding: 16,
-            }}
-          >
-            <View
-              style={{
-                width: '100%',
-                borderRadius: 12,
-                backgroundColor: isDark ? 'rgb(28, 28, 28)' : 'rgb(255, 255, 255)',
-                marginBottom: 10,
-                shadowColor: '#000',
-                shadowOffset: { width: 0, height: 4 },
-                shadowOpacity: 0.2,
-                shadowRadius: 6,
-                elevation: 6,
-            }}>
-              <Image
-                style={{
-                  width: '100%',
-                  height: 200,
-                  borderTopLeftRadius: 12,
-                  borderTopRightRadius: 12,
-                }}
-                source={{ uri: 'https://play-lh.googleusercontent.com/IT-4gpRmMwvtYlw5M3JbamStGWlDArwYDXaWex0kbhEy-jyb5txK2Ri4GtS6syghui8' }}
-              />
-              <View style={{
-                paddingTop: 10,
-                paddingBottom: 20,
-                paddingLeft: 10,
-                paddingRight: 10,
-              }}>
-
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    gap: 10,
-                    width: '100%',
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 20,
-                      color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
-                      flex: 1,
-                      fontWeight: 'bold',
-                    }}
-                    numberOfLines={2}
-                    ellipsizeMode="tail"
-                  >Voucher Khusu anak Kampus!</Text>
-                </View>
-
-                <View
-                  style={{ 
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    gap: 10
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: 14,
-                      color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)'
-                    }}
-                  >Diskon s.d 35RB pake GoRide & GoCar!</Text>
-                  <Feather name="star" size={20} color="rgb(140, 140, 140)" />
-                </View>
-
-              </View>
-            </View>
-          </View>
-
-          {/* Label */}
-          <View>
-            <Text
-              style={{
-                marginHorizontal: 16,
-                fontWeight: 'bold',
-                fontSize: 25,
-                marginBottom: -10,
-                color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
-              }}
-            >Tebus murah !!</Text>
-          </View>
+          {/* End Promo Info */}
 
           {/* Rating Resto */}
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            style={{
-              marginVertical: 20
-            }}
           >
             <View
               style={{
                 flexDirection: 'row',
                 paddingHorizontal: 16,
+                marginTop: 10,
                 gap: 10,
               }}
             >
               {restoData.map((item, index) => (
                 <View
                     key={index}
-                    style={{
-                      width: 250,
-                      height: 280,
-                      borderRadius: 12,
-                      backgroundColor: isDark ? 'rgb(28, 28, 28)' : 'rgb(255, 255, 255)',
-                      marginBottom: 10,
-                      shadowColor: '#000',
-                      shadowOffset: { width: 0, height: 4 },
-                      shadowOpacity: 0.2,
-                      shadowRadius: 6,
-                      elevation: 6,
-                  }}>
+                    style={[
+                      styles.cardTitle,
+                      {
+                        width: 250,
+                        height: 280,
+                        borderRadius: 12,
+                        marginBottom: 10,
+                        backgroundColor: isDark ? 'rgb(28, 28, 28)' : 'rgb(255, 255, 255)',
+                      }
+                    ]}
+                  >
                   <Image
                     style={{
                       width: '100%',
@@ -459,6 +392,7 @@ export default function App() {
                     source={{ uri: item.image }}
                   />
                   <View style={{ padding: 10 }}>
+                    {/* Jarak Waktu */}
                     <View
                       style={{
                         flexDirection: 'row',
@@ -473,6 +407,7 @@ export default function App() {
                         }}
                       >{item.jarakTempuh} - {item.durasiWaktu}</Text>
                     </View>
+                    {/* Text */}
                     <View
                       style={{
                         flexDirection: 'row',
@@ -494,6 +429,7 @@ export default function App() {
                         ellipsizeMode="tail"
                       >{item.namaResto}</Text>
                     </View>
+                    {/* Rating */}
                     <View
                       style={{ 
                         flexDirection: 'row',
@@ -509,18 +445,324 @@ export default function App() {
                         }}
                       >{item.rating}</Text>
                     </View>
+
                   </View>
                 </View>
               ))}
             </View>
           </ScrollView>
+          {/* End Rating Resto */}
+
+          {/* Label */}
+          <Text
+            style={{
+              marginHorizontal: 16,
+              fontWeight: 'bold',
+              fontSize: 25,
+              color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
+            }}
+          >Tebus murah !!</Text>
+          {/* End Label */}
+          
+          {/* Promo Info */}
+          <View
+            style={{
+              backgroundColor: 'rgba(130, 239, 84, 0.3)',
+              padding: 10,
+              marginHorizontal: 10,
+              marginVertical: 5,
+              borderRadius: 10,
+            }}
+          >
+            <Text
+              numberOfLines={1}
+              ellipsizeMode="tail"
+              style={{
+                color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)'
+              }}
+            >Diskon s.d. 10rb/transaksi. Yuk, langganan GoPay Plus plus plus</Text>
+          </View>
+          {/* End Promo Info */}
+
+          {/* Banner Section */}
+          {bannerList.map((banner) => (
+            <View
+              key={banner.id}
+              style={[
+                styles.cardTitle,
+                {
+                  marginHorizontal: 10,
+                  marginVertical: 5,
+                  backgroundColor: isDark ? 'rgb(28, 28, 28)' : 'rgb(255, 255, 255)'
+                }
+              ]}
+            >
+              <Image
+                style={{
+                  width: '100%',
+                  height: 200,
+                  borderTopLeftRadius: 12,
+                  borderTopRightRadius: 12,
+                }}
+                source={{ uri: banner.image }}
+              />
+              <View style={{
+                paddingTop: 10,
+                paddingBottom: 20,
+                paddingLeft: 10,
+                paddingRight: 10,
+              }}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: 10,
+                    width: '100%',
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
+                      flex: 1,
+                      fontWeight: 'bold',
+                    }}
+                    numberOfLines={2}
+                    ellipsizeMode="tail"
+                  >
+                    {banner.title}
+                  </Text>
+                </View>
+                <View
+                  style={{ 
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    gap: 10
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)'
+                    }}
+                  >
+                    {banner.subtitle}
+                  </Text>
+                  <Feather name="star" size={20} color="rgb(140, 140, 140)" />
+                </View>
+              </View>
+            </View>
+          ))}
+          {/* End Banner Section */}
+
+          {/* Rating Resto */}
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+          >
+            <View
+              style={{
+                flexDirection: 'row',
+                paddingHorizontal: 16,
+                marginTop: 10,
+                gap: 10,
+              }}
+            >
+              {restoData.map((item, index) => (
+                <View
+                    key={index}
+                    style={[
+                      styles.cardTitle,
+                      {
+                        width: 250,
+                        height: 280,
+                        borderRadius: 12,
+                        marginBottom: 10,
+                        backgroundColor: isDark ? 'rgb(28, 28, 28)' : 'rgb(255, 255, 255)',
+                      }
+                    ]}
+                  >
+                  <Image
+                    style={{
+                      width: '100%',
+                      height: 150,
+                      borderTopLeftRadius: 12,
+                      borderTopRightRadius: 12,
+                    }}
+                    source={{ uri: item.image }}
+                  />
+                  <View style={{ padding: 10 }}>
+                    {/* Jarak Waktu */}
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        gap: 10
+                      }}
+                    >
+                      <Text
+                        style={{
+                            fontSize: 15,
+                            color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)'
+                        }}
+                      >{item.jarakTempuh} - {item.durasiWaktu}</Text>
+                    </View>
+                    {/* Text */}
+                    <View
+                      style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        gap: 10,
+                        width: '100%',
+                        marginTop: 10,
+                        marginBottom: 5,
+                      }}
+                    >
+                      <Text
+                        style={{
+                          fontSize: 20,
+                          color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
+                          flex: 1,
+                          fontWeight: 'bold',
+                        }}
+                        numberOfLines={2}
+                        ellipsizeMode="tail"
+                      >{item.namaResto}</Text>
+                    </View>
+                    {/* Rating */}
+                    <View
+                      style={{ 
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        gap: 10
+                      }}
+                    >
+                      <Feather name="star" size={20} color="rgb(140, 140, 140)" />
+                      <Text
+                        style={{
+                          fontSize: 14,
+                          color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)'
+                        }}
+                      >{item.rating}</Text>
+                    </View>
+
+                  </View>
+                </View>
+              ))}
+            </View>
+          </ScrollView>
+          {/* End Rating Resto */}
           
         </View>
+        {/* End Container */}
 
       </ScrollView>
+      {/* End ScrollView */}
+
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  fixedTop: {
+    // Fixed to top
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 999,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    // Border radius
+    borderEndStartRadius: 20,
+    borderEndEndRadius: 20,
+    // Padding
+    paddingTop: 50,
+    paddingBottom: 12,
+    paddingHorizontal: 16,
+    // Shadow
+    // - Android
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    // - iOS
+    elevation: 4,
+  },
+  container: {
+    paddingTop: 90,
+    paddingBottom: 130,
+  },
+  card: {
+    padding: 10,
+    margin: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 6,
+  },
+  cardTitle: {
+    
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 12,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 6,
+  },
+
+  inputGroup: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderRadius: 30,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    marginRight: 20,
+  },
+  bannerTop: {
+    width: '100%',
+    height: 200,
+  },
+  iconGroup: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 10,
+  },
+  iconAndBorder: {
+    borderRadius: 50,
+    padding: 10,
+    fontSize: 20
+  },
+  rowBalance: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  rowService: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+  },
+  bridge: {
+    padding: 5,
+    width: 60,
+    marginBottom: 2,
+    fontSize: 14,
+    alignSelf: 'flex-start',
+    borderTopStartRadius: 0,
+    borderTopEndRadius: 15,
+    borderEndStartRadius: 15,
+    borderEndEndRadius: 0,
+    textAlign: 'center',
+  },
 });
