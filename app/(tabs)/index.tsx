@@ -555,6 +555,17 @@ export default function App() {
           ))}
           {/* End Banner Section */}
 
+          {/* Label */}
+          <Text
+            style={{
+              marginHorizontal: 16,
+              fontWeight: 'bold',
+              fontSize: 25,
+              color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
+            }}
+          >Tebus murah !!</Text>
+          {/* End Label */}
+
           {/* Rating Resto */}
           <ScrollView
             horizontal
