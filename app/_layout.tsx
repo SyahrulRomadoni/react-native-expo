@@ -4,7 +4,7 @@ import { Stack, router, usePathname } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import {
-  // Platform,
+  Platform,
   useColorScheme,
 } from 'react-native';
 import 'react-native-reanimated';
@@ -15,11 +15,11 @@ export default function RootLayout() {
   const pathname = usePathname();
 
   const getBaseURL = () => {
-    // if (Platform.OS === 'android') {
-    //   return 'http://10.0.2.2:1001';
-    // }
-    // return 'http://localhost:1001';
-    return 'https://api.mifc.ismartglobal.id';
+    if (Platform.OS === 'android') {
+      return 'http://10.0.2.2:1001';
+    }
+    return 'http://localhost:1001';
+    // return 'https://api.mifc.ismartglobal.id';
   };
 
   useEffect(() => {

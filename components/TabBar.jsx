@@ -74,11 +74,12 @@ const TabBar = ({ state, descriptors, navigation }) => {
 
 const styles = StyleSheet.create({
   cards: {
-    height: 50,
-    width: 400,
+    height: 70,
+    width: '100%',
     backgroundColor: 'blue',
     position: 'absolute',
     bottom: 0,
+    marginBottom: -10,
   },
   tabbar: {
     position: 'absolute',
@@ -101,6 +102,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgb(0,0,0,0)',
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 20,
   },
 });
 

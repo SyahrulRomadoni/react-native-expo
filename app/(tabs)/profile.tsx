@@ -7,7 +7,7 @@ import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import {
   Alert,
-  // Platform,
+  Platform,
   StyleSheet,
   Text,
   TextInput,
@@ -27,11 +27,11 @@ export default function ProfileScreen() {
   const [isEditable, setIsEditable] = useState(false);
 
   const getBaseURL = () => {
-    // if (Platform.OS === 'android') {
-    //   return 'http://10.0.2.2:1001';
-    // }
-    // return 'http://localhost:1001';
-    return 'https://api.mifc.ismartglobal.id';
+    if (Platform.OS === 'android') {
+      return 'http://10.0.2.2:1001';
+    }
+    return 'http://localhost:1001';
+    // return 'https://api.mifc.ismartglobal.id';
   };
 
   const colorScheme = useColorScheme();

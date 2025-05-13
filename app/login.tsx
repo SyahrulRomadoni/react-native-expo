@@ -4,7 +4,7 @@ import { router } from 'expo-router';
 import React, { useState } from 'react';
 import {
   Image,
-  // Platform,
+  Platform,
   Pressable,
   StyleSheet,
   Text,
@@ -23,11 +23,11 @@ export default function Login() {
   const isDark = colorScheme === 'dark';
 
   const getBaseURL = () => {
-    // if (Platform.OS === 'android') {
-    //   return 'http://10.0.2.2:1001';
-    // }
-    // return 'http://localhost:1001';
-    return 'https://api.mifc.ismartglobal.id';
+    if (Platform.OS === 'android') {
+      return 'http://10.0.2.2:1001';
+    }
+    return 'http://localhost:1001';
+    // return 'https://api.mifc.ismartglobal.id';
   };
 
   const handleLogin = async () => {

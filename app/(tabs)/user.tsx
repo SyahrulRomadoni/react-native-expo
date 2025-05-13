@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Picker } from '@react-native-picker/picker';
 import React, { useEffect, useState } from 'react';
 import {
-	// Platform,
+	Platform,
 	Pressable,
 	ScrollView,
 	StyleSheet,
@@ -21,11 +21,11 @@ export default function UserScreen() {
 	const isDark = colorScheme === 'dark';
 
 	const getBaseURL = () => {
-		// if (Platform.OS === 'android') {
-		// 	return 'http://10.0.2.2:1001';
-		// }
-		// return 'http://localhost:1001';
-		return 'https://api.mifc.ismartglobal.id';
+		if (Platform.OS === 'android') {
+			return 'http://10.0.2.2:1001';
+		}
+		return 'http://localhost:1001';
+		// return 'https://api.mifc.ismartglobal.id';
 	};
 
 	// Define the types for Users and Roles
