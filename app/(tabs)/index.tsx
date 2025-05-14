@@ -12,6 +12,7 @@ import {
   View,
   useColorScheme
 } from 'react-native';
+import BannerCarousel from '../../components/BannerCarousel';
 import BannerList from '../../components/BannerList';
 import RestoCardList from '../../components/RestoCardList';
 
@@ -20,58 +21,73 @@ export default function App() {
   const isDark = colorScheme === 'dark';
 
   // Dummy data
+  const bannerList1 = [
+    {
+      id: 1,
+      image: 'https://lelogama.go-jek.com/post_featured_image/Info-Gojek-Header-Banner.jpg',
+    },
+    {
+      id: 2,
+      image: 'https://lelogama.go-jek.com/post_featured_image/jaga-kebersihan-layanan-BLOG-Banner.jpg',
+    },
+    {
+      id: 3,
+      image: 'https://lelogama.go-jek.com/post_featured_image/protokol-ekstra.jpg',
+    },
+  ];
+
   const servicesData = [
     {
       id: 1,
       name: 'GoRide',
       badge: '5RB',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg',
+      image: 'https://cdn-icons-png.flaticon.com/512/1023/1023346.png',
     },
     {
       id: 2,
-      name: 'GoRide',
+      name: 'GoCar',
       badge: '5RB',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg',
+      image: 'https://cdn-icons-png.flaticon.com/512/2555/2555013.png',
     },
     {
       id: 3,
-      name: 'GoRide',
+      name: 'GoFood',
       badge: '5RB',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg',
+      image: 'https://cdn-icons-png.flaticon.com/512/3272/3272779.png',
     },
     {
       id: 4,
-      name: 'GoRide',
+      name: 'GoSand',
       badge: '5RB',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg',
+      image: 'https://cdn-icons-png.flaticon.com/512/7274/7274757.png',
     },
     {
       id: 5,
-      name: 'GoRide',
+      name: 'GoMart',
       badge: '5RB',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg',
+      image: 'https://cdn-icons-png.flaticon.com/512/3142/3142740.png',
     },
     {
       id: 6,
-      name: 'GoRide',
+      name: 'GoPay',
       badge: '5RB',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg',
+      image: 'https://cdn-icons-png.flaticon.com/512/6020/6020687.png',
     },
     {
       id: 7,
-      name: 'GoRide',
-      badge: '5RB',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg',
+      name: 'GoHemat',
+      badge: '',
+      image: 'https://cdn-icons-png.flaticon.com/512/8781/8781733.png',
     },
     {
       id: 8,
-      name: 'GoRide',
-      badge: '5RB',
-      image: 'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg',
+      name: 'GoLainya',
+      badge: '',
+      image: 'https://cdn-icons-png.flaticon.com/512/9970/9970242.png',
     },
   ];
 
-  const bannerList = [
+  const bannerList2 = [
     {
       id: 1,
       image: 'https://lelogama.go-jek.com/post_featured_image/promo-tokopedia-agustus.jpg',
@@ -200,19 +216,7 @@ export default function App() {
         >
 
           {/* Banner */}
-          <View
-            style={{
-              // paddingHorizontal: 16
-            }}
-          >
-            <Image
-              style={{
-                width: '100%',
-                height: 200,
-              }}
-              source={{ uri: 'https://play-lh.googleusercontent.com/IT-4gpRmMwvtYlw5M3JbamStGWlDArwYDXaWex0kbhEy-jyb5txK2Ri4GtS6syghui8' }}
-            />
-          </View>
+          <BannerCarousel data={bannerList1} />
 
           {/* Balance Section */}
           <View
@@ -356,24 +360,28 @@ export default function App() {
                 }}
               >
 
-                <Text
-                  style={{
-                    fontSize: 12,
-                    paddingHorizontal: 4,
-                    marginBottom: 2,
-                    alignSelf: 'flex-start',
-                    borderTopLeftRadius: 0,
-                    borderTopRightRadius: 10,
-                    borderBottomLeftRadius: 10,
-                    borderBottomRightRadius: 0,
-                    width: '60%',
-                    textAlign: 'center',
-                    backgroundColor: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
-                    color: isDark ? 'rgb(0, 0, 0)' : 'rgb(255, 255, 255)',
-                  }}
-                >
-                  {item.badge}
-                </Text>
+                {item.badge ? (
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      paddingHorizontal: 4,
+                      marginBottom: 2,
+                      alignSelf: 'flex-start',
+                      borderTopLeftRadius: 0,
+                      borderTopRightRadius: 10,
+                      borderBottomLeftRadius: 10,
+                      borderBottomRightRadius: 0,
+                      width: '60%',
+                      textAlign: 'center',
+                      backgroundColor: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
+                      color: isDark ? 'rgb(0, 0, 0)' : 'rgb(255, 255, 255)',
+                    }}
+                  >
+                    {item.badge}
+                  </Text>
+                ) : (
+                  <View style={{ height: 18, marginBottom: 2 }} /> // Dummy spacer
+                )}
 
                 <Image
                   source={{ uri: item.image }}
@@ -386,7 +394,7 @@ export default function App() {
                   }}
                 />
 
-                <Text>{item.name}</Text>
+                <Text style={{ color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)' }}>{item.name}</Text>
                 
               </View>
             ))}
@@ -463,7 +471,7 @@ export default function App() {
           </View>
 
           {/* Banner Section */}
-          <BannerList data={bannerList}/>
+          <BannerList data={bannerList2}/>
           
         </View>
 
