@@ -57,7 +57,7 @@ export default function App() {
     },
     {
       id: 4,
-      name: 'GoSand',
+      name: 'GoSend',
       badge: '5RB',
       image: 'https://cdn-icons-png.flaticon.com/512/7274/7274757.png',
     },
@@ -75,13 +75,13 @@ export default function App() {
     },
     {
       id: 7,
-      name: 'GoHemat',
+      name: 'GoHemmat',
       badge: '',
       image: 'https://cdn-icons-png.flaticon.com/512/8781/8781733.png',
     },
     {
       id: 8,
-      name: 'GoLainya',
+      name: 'Lainnya',
       badge: '',
       image: 'https://cdn-icons-png.flaticon.com/512/9970/9970242.png',
     },
@@ -245,13 +245,13 @@ export default function App() {
                   fontWeight: 'bold',
                   color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)'
                 }}
-              >Rp 99.000.000</Text>
+              >Rp 20.000.000</Text>
               <Text
                 style={{
                   fontSize: Platform.OS === 'ios' ? 12 : 14,
                   color: '#888',
                 }}
-              >99.000.000 coins</Text>
+              >10.000.000 coins</Text>
             </View>
 
             {/* Button */}
@@ -336,7 +336,7 @@ export default function App() {
                     marginTop: 4,
                     color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)'
                   }}
-                >Lainya..</Text>
+                >Lainnya</Text>
               </TouchableOpacity>
 
             </View>
@@ -361,24 +361,25 @@ export default function App() {
               >
 
                 {item.badge ? (
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      paddingHorizontal: 4,
-                      marginBottom: 2,
-                      alignSelf: 'flex-start',
-                      borderTopLeftRadius: 0,
-                      borderTopRightRadius: 10,
-                      borderBottomLeftRadius: 10,
-                      borderBottomRightRadius: 0,
-                      width: '60%',
-                      textAlign: 'center',
-                      backgroundColor: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
-                      color: isDark ? 'rgb(0, 0, 0)' : 'rgb(255, 255, 255)',
-                    }}
-                  >
-                    {item.badge}
-                  </Text>
+                  <View style={{ alignItems: 'center' }}>
+                    <Text
+                      style={{
+                        fontSize: 12,
+                        paddingHorizontal: 20,
+                        paddingVertical: 2,
+                        marginBottom: 2,
+                        borderTopLeftRadius: 10,
+                        borderTopRightRadius: 10,
+                        borderBottomLeftRadius: 10,
+                        borderBottomRightRadius: 10,
+                        textAlign: 'center',
+                        backgroundColor: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
+                        color: isDark ? 'rgb(0, 0, 0)' : 'rgb(255, 255, 255)',
+                      }}
+                    >
+                      {item.badge}
+                    </Text>
+                  </View>
                 ) : (
                   <View style={{ height: 18, marginBottom: 2 }} /> // Dummy spacer
                 )}
@@ -386,8 +387,8 @@ export default function App() {
                 <Image
                   source={{ uri: item.image }}
                   style={{
-                    width: '90%',
-                    height: 80,
+                    width: '50%',
+                    height: 50,
                     borderRadius: 10,
                     marginBottom: 5,
                     resizeMode: 'contain',

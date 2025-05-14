@@ -40,7 +40,7 @@ const BannerList: React.FC<BannerListProps> = ({ data}) => {
           <Image
             style={{
               width: '100%',
-              height: 200,
+              height: 180,
               borderTopLeftRadius: 12,
               borderTopRightRadius: 12,
             }}
@@ -64,7 +64,7 @@ const BannerList: React.FC<BannerListProps> = ({ data}) => {
             >
               <Text
                 style={{
-                  fontSize: Platform.OS === 'ios' ? 14 : 16,
+                  fontSize: Platform.OS === 'ios' ? 16 : 17,
                   color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
                   flex: 1,
                   fontWeight: 'bold',
