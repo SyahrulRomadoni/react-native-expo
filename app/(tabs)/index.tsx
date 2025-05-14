@@ -12,6 +12,9 @@ import {
   View,
   useColorScheme
 } from 'react-native';
+import BannerList from '../../components/BannerList';
+import RestoCardList from '../../components/RestoCardList';
+
 export default function App() {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
@@ -89,7 +92,7 @@ export default function App() {
     },
   ];
 
-  const restoData = [
+  const restoDataList = [
     {
       image: 'https://lelogama.go-jek.com/cms_editor/2018/06/29/Januari_JKT_Martabak.jpg',
       jarakTempuh: '2.73 km',
@@ -397,7 +400,6 @@ export default function App() {
                 marginHorizontal: 10,
                 fontWeight: 'bold',
                 fontSize: 20,
-                marginBottom: -10,
                 color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
               }}
             >Tebus murah !!</Text>
@@ -425,104 +427,7 @@ export default function App() {
           </View>
 
           {/* Rating Resto */}
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-          >
-            <View
-              style={{
-                flexDirection: 'row',
-                paddingHorizontal: 16,
-                marginTop: 10,
-                gap: 10,
-              }}
-            >
-              {restoData.map((item, index) => (
-                <View
-                    key={index}
-                    style={[
-                      {
-                        borderWidth: 1,
-                        borderColor: '#ccc',
-                        borderRadius: 12,
-                        shadowColor: '#000',
-                        shadowOffset: { width: 0, height: 4 },
-                        shadowOpacity: 0.2,
-                        shadowRadius: 6,
-                        elevation: 6,
-                        width: 250,
-                        height: Platform.OS === 'ios' ? 280 : 290,
-                        marginBottom: 10,
-                        backgroundColor: isDark ? 'rgb(28, 28, 28)' : 'rgb(255, 255, 255)',
-                      }
-                    ]}
-                  >
-                  <Image
-                    style={{
-                      width: '100%',
-                      height: 150,
-                      borderTopLeftRadius: 12,
-                      borderTopRightRadius: 12,
-                    }}
-                    source={{ uri: item.image }}
-                  />
-                  <View style={{ padding: 10, flex: 1, justifyContent: 'space-between' }}>
-  
-                    {/* Jarak Waktu (top) */}
-                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-                      <Text
-                        style={{
-                          fontSize: Platform.OS === 'ios' ? 13 : 15,
-                          color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)'
-                        }}
-                      >
-                        {item.jarakTempuh} - {item.durasiWaktu}
-                      </Text>
-                    </View>
-
-                    {/* Nama Resto (middle) */}
-                    <View
-                      style={{
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        gap: 10,
-                        width: '100%',
-                        justifyContent: 'center',
-                        flex: 1,
-                      }}
-                    >
-                      <Text
-                        style={{
-                          fontSize: Platform.OS === 'ios' ? 14 : 18,
-                          color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
-                          fontWeight: 'bold',
-                          textAlign: 'left',
-                        }}
-                        numberOfLines={2}
-                        ellipsizeMode="tail"
-                      >
-                        {item.namaResto}
-                      </Text>
-                    </View>
-
-                    {/* Rating (bottom) */}
-                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-                      <Feather name="star" size={20} color="rgb(140, 140, 140)" />
-                      <Text
-                        style={{
-                          fontSize: 14,
-                          color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)'
-                        }}
-                      >
-                        {item.rating}
-                      </Text>
-                    </View>
-                  </View>
-
-                </View>
-              ))}
-            </View>
-          </ScrollView>
+          <RestoCardList data={restoDataList} />
 
           {/* Label */}
           <View>
@@ -531,7 +436,6 @@ export default function App() {
                 marginHorizontal: 10,
                 fontWeight: 'bold',
                 fontSize: 20,
-                marginBottom: -10,
                 color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
               }}
             >Tebus murah !!</Text>
@@ -559,89 +463,7 @@ export default function App() {
           </View>
 
           {/* Banner Section */}
-          {bannerList.map((banner) => (
-            <View
-              key={banner.id}
-              style={[
-                {
-                  borderWidth: 1,
-                  borderColor: '#ccc',
-                  borderRadius: 12,
-                  shadowColor: '#000',
-                  shadowOffset: { width: 0, height: 4 },
-                  shadowOpacity: 0.2,
-                  shadowRadius: 6,
-                  elevation: 6,
-                  marginHorizontal: 10,
-                  marginVertical: 5,
-                  backgroundColor: isDark ? 'rgb(28, 28, 28)' : 'rgb(255, 255, 255)'
-                }
-              ]}
-            >
-
-              {/* Image */}
-              <Image
-                style={{
-                  width: '100%',
-                  height: 200,
-                  borderTopLeftRadius: 12,
-                  borderTopRightRadius: 12,
-                }}
-                source={{ uri: banner.image }}
-              />
-
-              <View style={{
-                paddingTop: 10,
-                paddingBottom: 20,
-                paddingLeft: 10,
-                paddingRight: 10,
-              }}>
-
-                {/* Title */}
-                <View
-                  style={{
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    gap: 10,
-                    width: '100%',
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: Platform.OS === 'ios' ? 14 : 16,
-                      color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
-                      flex: 1,
-                      fontWeight: 'bold',
-                    }}
-                    numberOfLines={2}
-                    ellipsizeMode="tail"
-                  >
-                    {banner.title}
-                  </Text>
-                </View>
-                
-                {/* Sub Text */}
-                <View
-                  style={{ 
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    gap: 10
-                  }}
-                >
-                  <Text
-                    style={{
-                      fontSize: Platform.OS === 'ios' ? 12 : 14,
-                      color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)'
-                    }}
-                  >
-                    {banner.subtitle}
-                  </Text>
-                  <Feather name="star" size={20} color="rgb(140, 140, 140)" />
-                </View>
-
-              </View>
-            </View>
-          ))}
+          <BannerList data={bannerList}/>
           
         </View>
 
