@@ -381,7 +381,7 @@ export default function App() {
                     </Text>
                   </View>
                 ) : (
-                  <View style={{ height: 18, marginBottom: 2 }} /> // Dummy spacer
+                  <View style={{ height: 20, marginBottom: 2 }} />
                 )}
 
                 <Image
