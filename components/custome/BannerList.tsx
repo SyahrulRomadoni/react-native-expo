@@ -1,6 +1,14 @@
 import { Feather } from '@expo/vector-icons';
 import React from 'react';
-import { Image, Platform, Text, View, useColorScheme } from 'react-native';
+import {
+  Image,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  useColorScheme,
+} from 'react-native';
 
 interface BannerItem {
   id: string | number;
@@ -11,18 +19,20 @@ interface BannerItem {
 
 interface BannerListProps {
   data: BannerItem[];
+  onTrigger?: (item: BannerItem) => void; // handler optional
 }
 
-const BannerList: React.FC<BannerListProps> = ({ data}) => {
-
-	const colorScheme = useColorScheme();
-	const isDark = colorScheme === 'dark';
+const BannerList: React.FC<BannerListProps> = ({ data, onTrigger }) => {
+  const colorScheme = useColorScheme();
+  const isDark = colorScheme === 'dark';
 
   return (
     <>
       {data.map((banner) => (
-        <View
+        <TouchableOpacity
           key={banner.id}
+          activeOpacity={0.8}
+          onPress={() => onTrigger && onTrigger(banner)}
           style={{
             borderWidth: 1,
             borderColor: '#ccc',
@@ -87,10 +97,12 @@ const BannerList: React.FC<BannerListProps> = ({ data}) => {
               <Feather name="star" size={20} color="rgb(140, 140, 140)" />
             </View>
           </View>
-        </View>
+        </TouchableOpacity>
       ))}
     </>
   );
 };
+
+const styles = StyleSheet.create({});
 
 export default BannerList;

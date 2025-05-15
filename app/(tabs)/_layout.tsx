@@ -1,7 +1,7 @@
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { Tabs } from 'expo-router';
 import React from 'react';
-import TabBar from '../../components/TabBar';
+import { TabBar } from '../../components/custome';
 
 export default function TabLayout() {
 	const colorScheme = useColorScheme();

@@ -1,12 +1,22 @@
 import React from 'react';
-import { Dimensions, Image, Platform, View } from 'react-native';
+import {
+  Dimensions,
+  Image,
+  Platform,
+  StyleSheet,
+  View
+} from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 
 interface BannerCarouselProps {
-  data: { id: number; image: string }[];
+  data: {
+    id: number;
+    image: string
+  }[];
 }
 
 const BannerCarousel: React.FC<BannerCarouselProps> = ({ data }) => {
+  
   const width = Dimensions.get('window').width;
 
   return (
@@ -33,5 +43,8 @@ const BannerCarousel: React.FC<BannerCarouselProps> = ({ data }) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+});
 
 export default BannerCarousel;

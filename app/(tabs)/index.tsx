@@ -1,7 +1,6 @@
 import { Feather } from '@expo/vector-icons';
 import React from 'react';
 import {
-  Image,
   Platform,
   SafeAreaView,
   ScrollView,
@@ -12,16 +11,21 @@ import {
   View,
   useColorScheme
 } from 'react-native';
-import BannerCarousel from '../../components/BannerCarousel';
-import BannerList from '../../components/BannerList';
-import RestoCardList from '../../components/RestoCardList';
+import {
+  BannerCarousel,
+  BannerList,
+  LabelCard,
+  LabelCardWithTrigger,
+  LabelText,
+  RestoCardList,
+  TabsMenuService
+} from '../../components/custome';
 
 export default function App() {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
 
-  // Dummy data
-  const bannerList1 = [
+  const bannerCarousel = [
     {
       id: 1,
       image: 'https://lelogama.go-jek.com/post_featured_image/Info-Gojek-Header-Banner.jpg',
@@ -87,7 +91,7 @@ export default function App() {
     },
   ];
 
-  const bannerList2 = [
+  const bannerCard = [
     {
       id: 1,
       image: 'https://lelogama.go-jek.com/post_featured_image/promo-tokopedia-agustus.jpg',
@@ -110,6 +114,7 @@ export default function App() {
 
   const restoDataList = [
     {
+      id: 1,
       image: 'https://lelogama.go-jek.com/cms_editor/2018/06/29/Januari_JKT_Martabak.jpg',
       jarakTempuh: '2.73 km',
       durasiWaktu: '25-35 min',
@@ -117,6 +122,7 @@ export default function App() {
       rating: '4.8 - 3rb+ rating',
     },
     {
+      id: 2,
       image: 'https://images.unsplash.com/photo-1600891964599-f61ba0e24092',
       jarakTempuh: '1.2 km',
       durasiWaktu: '15-25 min',
@@ -124,6 +130,7 @@ export default function App() {
       rating: '4.7 - 2rb+ rating',
     },
     {
+      id: 3,
       image: 'https://i.gojekapi.com/darkroom/gofood-indonesia/v2/images/uploads/a50bc893-f54e-4ff0-b669-565231d3a715_Go-Biz_20220223_225110.jpeg',
       jarakTempuh: '3.5 km',
       durasiWaktu: '30-40 min',
@@ -131,6 +138,22 @@ export default function App() {
       rating: '4.5 - 1rb+ rating',
     },
   ];
+
+  const handleTabsMenu = (item: any) => {
+    console.log('id : ', item.id + ', name : ' + item.name);
+  };
+
+  const handleResto = (item: any) => {
+    console.log('id : ' + item.id + ', name : ' + item.namaResto);
+  };
+
+  const handleBanner = (item: any) => {
+    console.log('id : ' + item.id + ', name : ' + item.title);
+  };
+
+  const handleTrigger = () => {
+    console.log('Tombol ditekan!');
+  };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -216,7 +239,7 @@ export default function App() {
         >
 
           {/* Banner */}
-          <BannerCarousel data={bannerList1} />
+          <BannerCarousel data={bannerCarousel} />
 
           {/* Balance Section */}
           <View
@@ -342,137 +365,32 @@ export default function App() {
             </View>
           </View>
 
-          {/* Services */}
-          <View style={{
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'space-around',
-            padding: 10
-          }}>
+          {/* Tabs Menu Service */}
+          <TabsMenuService data={servicesData} onTrigger={handleTabsMenu}/>
 
-            {servicesData.map((item, idx) => (
-              <View
-                key={idx}
-                style={{
-                  alignItems: 'center',
-                  width: '25%',
-                  marginBottom: 10,
-                }}
-              >
+          {/* Label Text */}
+          <LabelText text="Tebus murah !!"/>
 
-                {item.badge ? (
-                  <View style={{ alignItems: 'center' }}>
-                    <Text
-                      style={{
-                        fontSize: 12,
-                        paddingHorizontal: 20,
-                        paddingVertical: 2,
-                        marginBottom: 2,
-                        borderTopLeftRadius: 10,
-                        borderTopRightRadius: 10,
-                        borderBottomLeftRadius: 10,
-                        borderBottomRightRadius: 10,
-                        textAlign: 'center',
-                        backgroundColor: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
-                        color: isDark ? 'rgb(0, 0, 0)' : 'rgb(255, 255, 255)',
-                      }}
-                    >
-                      {item.badge}
-                    </Text>
-                  </View>
-                ) : (
-                  <View style={{ height: 20, marginBottom: 2 }} />
-                )}
+          {/* Label Card */}
+          <LabelCard text='Diskon s.d. 10rb/transaksi. Yuk, langganan GoPay Plus'/>
 
-                <Image
-                  source={{ uri: item.image }}
-                  style={{
-                    width: '50%',
-                    height: 50,
-                    borderRadius: 10,
-                    marginBottom: 5,
-                    resizeMode: 'contain',
-                  }}
-                />
-
-                <Text style={{ color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)' }}>{item.name}</Text>
-                
-              </View>
-            ))}
-
-          </View>
-
-          {/* Label */}
-          <View>
-            <Text
-              style={{
-                marginHorizontal: 10,
-                fontWeight: 'bold',
-                fontSize: 20,
-                color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
-              }}
-            >Tebus murah !!</Text>
-          </View>
-
-          {/* Promo Info */}
-          <View
-            style={{
-              backgroundColor: 'rgba(130, 239, 84, 0.3)',
-              padding: 10,
-              marginHorizontal: 10,
-              borderRadius: 10,
-              marginTop: 10
-            }}
-          >
-            <Text
-              numberOfLines={1}
-              ellipsizeMode="tail"
-              style={{
-                color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)'
-              }}
-            >
-              Diskon s.d. 10rb/transaksi. Yuk, langganan GoPay Plus plus plus
-            </Text>
-          </View>
+          {/* Label Card and Tigger */}
+          <LabelCardWithTrigger text="Diskon s.d. 10rb/transaksi. Yuk, langganan GoPay Plus plus" onPress={handleTrigger}/>
 
           {/* Rating Resto */}
-          <RestoCardList data={restoDataList} />
+          <RestoCardList data={restoDataList} onTrigger={handleResto} />
 
-          {/* Label */}
-          <View>
-            <Text
-              style={{
-                marginHorizontal: 10,
-                fontWeight: 'bold',
-                fontSize: 20,
-                color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)',
-              }}
-            >Tebus murah !!</Text>
-          </View>
+          {/* Label Text */}
+          <LabelText text="Tebus murah !!"/>
 
-          {/* Promo Info */}
-          <View
-            style={{
-              backgroundColor: 'rgba(130, 239, 84, 0.3)',
-              padding: 10,
-              marginHorizontal: 10,
-              borderRadius: 10,
-              marginTop: 10
-            }}
-          >
-            <Text
-              numberOfLines={1}
-              ellipsizeMode="tail"
-              style={{
-                color: isDark ? 'rgb(255, 255, 255)' : 'rgb(0, 0, 0)'
-              }}
-            >
-              Diskon s.d. 10rb/transaksi. Yuk, langganan GoPay Plus plus plus
-            </Text>
-          </View>
+          {/* Label Card */}
+          <LabelCard text='Diskon s.d. 10rb/transaksi. Yuk, langganan GoPay Plus'/>
+
+          {/* Label Card and Tigger */}
+          <LabelCardWithTrigger text="Diskon s.d. 10rb/transaksi. Yuk, langganan GoPay Plus plus" onPress={handleTrigger}/>
 
           {/* Banner Section */}
-          <BannerList data={bannerList2}/>
+          <BannerList data={bannerCard} onTrigger={handleBanner} />;
           
         </View>
 

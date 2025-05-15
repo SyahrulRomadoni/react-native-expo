@@ -5,11 +5,13 @@ import {
   Platform,
   ScrollView,
   Text,
+  TouchableOpacity,
   View,
-  useColorScheme
+  useColorScheme,
 } from 'react-native';
 
 interface RestoItem {
+  id: string | number;
   namaResto: string;
   image: string;
   jarakTempuh: string;
@@ -19,9 +21,10 @@ interface RestoItem {
 
 interface Props {
   data: RestoItem[];
+  onTrigger?: (item: RestoItem) => void;
 }
 
-const RestoCardList: React.FC<Props> = ({ data }) => {
+const RestoCardList: React.FC<Props> = ({ data, onTrigger }) => {
   
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
@@ -32,15 +35,17 @@ const RestoCardList: React.FC<Props> = ({ data }) => {
         style={[
           {
             flexDirection: 'row',
-            paddingHorizontal: 16,
-            marginTop: 10,
+            paddingHorizontal: 10,
+            paddingVertical: 5,
             gap: 10,
           },
         ]}
       >
         {data.map((item, index) => (
-          <View
-            key={index}
+          <TouchableOpacity
+            key={item.id || index}
+            activeOpacity={0.7}
+            onPress={() => onTrigger && onTrigger(item)}
             style={{
               borderWidth: 1,
               borderColor: '#ccc',
@@ -52,7 +57,6 @@ const RestoCardList: React.FC<Props> = ({ data }) => {
               elevation: 6,
               width: 250,
               height: Platform.OS === 'ios' ? 280 : 290,
-              marginBottom: 10,
               backgroundColor: isDark ? 'rgb(28, 28, 28)' : 'rgb(255, 255, 255)',
             }}
           >
@@ -66,7 +70,6 @@ const RestoCardList: React.FC<Props> = ({ data }) => {
               source={{ uri: item.image }}
             />
             <View style={{ padding: 10, flex: 1, justifyContent: 'space-between' }}>
-              {/* Jarak & Waktu */}
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
                 <Text
                   style={{
@@ -78,7 +81,6 @@ const RestoCardList: React.FC<Props> = ({ data }) => {
                 </Text>
               </View>
 
-              {/* Nama Resto */}
               <View
                 style={{
                   flexDirection: 'row',
@@ -103,7 +105,6 @@ const RestoCardList: React.FC<Props> = ({ data }) => {
                 </Text>
               </View>
 
-              {/* Rating */}
               <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
                 <Feather name="star" size={20} color="rgb(140, 140, 140)" />
                 <Text
@@ -116,7 +117,7 @@ const RestoCardList: React.FC<Props> = ({ data }) => {
                 </Text>
               </View>
             </View>
-          </View>
+          </TouchableOpacity>
         ))}
       </View>
     </ScrollView>
