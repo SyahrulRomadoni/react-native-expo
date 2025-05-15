@@ -390,7 +390,7 @@ export default function App() {
           <LabelCardWithTrigger text="Diskon s.d. 10rb/transaksi. Yuk, langganan GoPay Plus plus" onPress={handleTrigger}/>
 
           {/* Banner Section */}
-          <BannerList data={bannerCard} onTrigger={handleBanner} />;
+          <BannerList data={bannerCard} onTrigger={handleBanner} />
           
         </View>
 
