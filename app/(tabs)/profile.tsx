@@ -135,7 +135,12 @@ export default function ProfileScreen() {
     >
       <ThemedView style={styles.header}>
         <Image source={require('@/assets/images/avatar.jpg')} style={styles.profileImage} />
-        <ThemedText type="title">{fullname}</ThemedText>
+        <ThemedText
+          type="title"
+          style={{ textAlign: 'center', flexShrink: 1, flexWrap: 'wrap' }}
+        >
+          {fullname}
+        </ThemedText>
         <TouchableOpacity onPress={() => setIsEditable(!isEditable)} style={styles.editButton}>
           <Ionicons name={isEditable ? 'close' : 'pencil'} size={24} color={isDark ? '#fff' : '#000'} />
         </TouchableOpacity>
@@ -265,19 +270,31 @@ const styles = StyleSheet.create({
   input: {
     padding: 15,
     borderRadius: 20,
-    borderWidth: 1,
+    borderWidth: 0,
+    borderColor: '#ccc',
     width: '100%',
     fontSize: 16,
     marginTop: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 6,
   },
 
   input2: {
     padding: 15,
     borderRadius: 20,
-    borderWidth: 1,
+    borderWidth: 0,
+    borderColor: '#ccc',
     fontSize: 16,
     width: '30%',
     maxWidth: 100,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 6,
   },
 
   image: {
