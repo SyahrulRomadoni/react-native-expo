@@ -14,7 +14,7 @@ const TabBar = ({ state, descriptors, navigation }) => {
   }, []);
 
   const isDark = colorScheme === 'dark';
-  const primaryColor = '#0891b2';
+  const primaryColor = 'rgb(25, 200, 20)';
   const greyColor = isDark ? '#aaa' : '#737373';
   const backgroundColor = isDark ? '#1c1c1c' : '#ffffff';
   const shadowColor = isDark ? '#000' : '#000';
