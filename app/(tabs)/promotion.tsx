@@ -6,7 +6,7 @@ export default function PromotionScreen() {
   const isDark = colorScheme === 'dark';
 
   return (
-    <ScrollView style={[styles.container, { backgroundColor: isDark ? '#000' : '#fff' }]}>
+    <ScrollView style={[styles.container, { backgroundColor: isDark ? '#151718' : '#fff' }]}>
       
       <Text style={{ fontSize: 20, color: isDark ? '#fff' : '#000' }}>
         Promotion

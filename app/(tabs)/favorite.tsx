@@ -58,7 +58,7 @@ export default function FavoriteSceen() {
       paddingLeft: 20,
       paddingRight: 20,
       paddingBottom: 150,
-      backgroundColor: isDark ? '#000' : '#fff'
+      backgroundColor: isDark ? '#151718' : '#fff'
     }}>
 
       <Text style={{ color: isDark ? '#fff' : '#000' }} fontSize={30}>Basic Grid</Text>

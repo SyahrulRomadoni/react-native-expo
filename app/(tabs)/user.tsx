@@ -343,7 +343,7 @@ export default function UserScreen() {
       <SafeAreaProvider>				
 				
 				{/* Scroll View */}
-        <ScrollView style={[styles.container, { backgroundColor: isDark ? '#000' : '#fff' }]}>
+        <ScrollView style={[styles.container, { backgroundColor: isDark ? '#151718' : '#fff' }]}>
 
 					{/* Card */}
           <Card style={[styles.card, { backgroundColor: isDark ? '#1c1c1c' : '#FFFFFF' }]}>

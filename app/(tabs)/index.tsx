@@ -234,7 +234,7 @@ export default function App() {
           style={{
             paddingTop: Platform.OS === 'ios' ? 43 : 100,
             paddingBottom: Platform.OS === 'ios' ? 130 : 140,
-            backgroundColor: isDark ? 'rgb(0, 0, 0)' : 'rgb(255, 255, 255)',
+            backgroundColor: isDark ? '#151718' : 'rgb(255, 255, 255)',
           }}
         >
 

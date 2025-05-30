@@ -21,7 +21,7 @@ const TabBar = ({ state, descriptors, navigation }) => {
 
   return (
   <>
-    <View style={[styles.cards, { backgroundColor: isDark ? '#000' : '#fff' }]}>
+    <View style={[styles.cards, { backgroundColor: isDark ? '#151718' : '#fff' }]}>
     </View>
 
     <View style={[styles.tabbar, { backgroundColor, shadowColor }]}>
